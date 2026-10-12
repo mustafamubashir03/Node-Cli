@@ -1,6 +1,6 @@
 # Node CLI
 
-A CLI tool to help you start and develop your project with the power of Claude's Agent SDK.
+An agentic coding CLI built on `@anthropic-ai/claude-agent-sdk`. Runs anywhere, like Claude Code.
 
 ![Node.js](https://img.shields.io/badge/Node.js-%3E%3D18-blue?style=flat-square)
 ![pnpm](https://img.shields.io/badge/pnpm-12.10.1-orange?style=flat-square)
@@ -8,224 +8,197 @@ A CLI tool to help you start and develop your project with the power of Claude's
 
 ---
 
-## Overview
-
-`node-cli` is an interactive command-line tool built on top of `@anthropic-ai/claude-agent-sdk`. It provides one-shot prompt execution and a streaming interactive chat terminal with configurable execution modes, custom model routing (OpenRouter or local Ollama), permission controls, and formatted terminal UI output.
-
-### Key Features
-
-- **Three operation modes** — `agent`, `ask`, and `plan` — to control tool permissions and execution safety.
-- **Interactive streaming chat (`pnpm dev chat`)** — real-time conversation loop with prompt history and slash command controls.
-- **Flexible model routing** — supports OpenRouter default endpoints as well as local Ollama instances.
-- **Permission control system** — enforces mode restrictions dynamically via `canUseTool` callbacks.
-- **Rich terminal styling** — colorized text (chalk), ASCII title banners (figlet + boxen), and loading spinners (ora).
-
----
-
-## Prerequisites & Installation
-
-### Prerequisites
-
-- **Node.js** >= 18.0.0
-- **pnpm** v12.10.1+ (enforced via `devEngines` / `packageManager`)
-
-### Installation
+## Quick start
 
 ```bash
-# Clone the repository
-git clone <repo-url>
-cd node-cli
-
-# Install dependencies using pnpm
 pnpm install
-
-# Build the TypeScript project
 pnpm build
+pnpm add -g .
 ```
+
+The last command links this package globally so `node-cli` works from any directory.
+
+```bash
+node-cli wake-up
+```
+
+Banner, environment check, mode picker, then chat.
 
 ---
 
-## Configuration and Models
+## Commands
 
-Environment variables are loaded from `.env` via `dotenv`.
+| Command | Description |
+|---|---|
+| `wake-up` | Banner, environment check, mode picker, then chat |
+| `chat [-m mode] [-v]` | Interactive streaming chat |
+| `run <prompt> [-m mode] [-v]` | One-shot prompt |
+| `talk <prompt> [-v]` | One-shot prompt in agent mode |
+| `doctor` | Check Node version and credentials |
+| `banner` | ASCII banner |
+| `help` | Show CLI help |
 
-### Environment Variables
+Flags: `-m, --mode <agent|ask|plan>` (default `agent`), `-v, --verbose`.
 
-| Variable | Description | Default / Fallback |
+### Slash commands
+
+| Command | Description |
+|---|---|
+| `/mode <agent\|ask\|plan>` | Switch mode mid-session |
+| `/context` | Token usage for the session |
+| `/help` | List slash commands |
+| `/clear` | Clear the terminal |
+| `/exit` | Shut down and exit |
+
+---
+
+## Modes
+
+| Mode | Permission mode | Tools | Turns | Behaviour |
+|---|---|---|---|---|
+| `agent` | `default` | Read, Grep, Glob, WebSearch, WebFetch, Edit, Write, Bash | 25 | Full loop, asks before every write |
+| `ask` | `dontAsk` | Read, Grep, Glob, WebSearch, WebFetch | 6 | Read-only answers |
+| `plan` | `plan` | Read, Grep, Glob, WebSearch, WebFetch | 6 | Read-only, proposes a plan |
+
+`Agent`, `Task`, `SendMessage`, `ScheduleWakeup`, cron tools, `TodoWrite`, `NotebookEdit`,
+`Skill`, `SlashCommand`, `ExitPlanMode`, `KillShell` and `BashOutput` are disallowed in every mode.
+
+---
+
+## Configuration
+
+Credentials are read from the first file that defines them:
+
+1. `.env` in the current directory
+2. `~/.node-cli.env`
+3. `.env` next to the installed package
+
+Set your key once, globally:
+
+```bash
+cp .env ~/.node-cli.env
+```
+
+| Variable | Purpose | Default |
 |---|---|---|
-| `OPENROUTER_API_KEY` | API key for OpenRouter endpoint | — |
-| `ANTHROPIC_API_KEY` | Anthropic API key fallback | — |
-| `ANTHROPIC_BASE_URL` | Base URL for custom endpoints (e.g. Ollama or custom proxies) | `https://openrouter.ai/api` |
-| `ANTHROPIC_AUTH_TOKEN` | Auth token for custom base URLs (e.g. `"ollama"`) | — |
-| `AGENT_MODEL` | Primary model identifier | `poolside/laguna-s-2.1:free` |
+| `OPENROUTER_API_KEY` | OpenRouter key | — |
+| `ANTHROPIC_API_KEY` | Key for the `BASE_URL` you point at | — |
+| `ANTHROPIC_BASE_URL` | Custom endpoint (Ollama, proxy) | `https://openrouter.ai/api` |
+| `ANTHROPIC_AUTH_TOKEN` | Auth for a custom base URL | — |
+| `AGENT_MODEL` | Primary model | `poolside/laguna-s-2.1:free` |
 
-### Setting the Model Name
+### Ollama
 
-The default model is defined in `src/agent/modes.ts`:
-- Primary Model (`MODEL`): set via `process.env.AGENT_MODEL` (defaults to `poolside/laguna-s-2.1:free`).
-- Small Model (`SMALL_MODEL`): `poolside/laguna-xs-2.1:free` (used as Haiku model fallback).
-
-To change the model, set `AGENT_MODEL` in your `.env`:
-```env
-AGENT_MODEL=poolside/laguna-s-2.1:free
-```
-
-### Switching between OpenRouter and Ollama
-
-#### 1. OpenRouter (Default)
-In `src/agent/modes.ts`, `BASE_OPTIONS` configures OpenRouter:
-```env
-OPENROUTER_API_KEY=your_openrouter_key_here
-```
-
-#### 2. Ollama (Local)
-To use a local Ollama instance:
-1. Set `ANTHROPIC_BASE_URL` and `ANTHROPIC_AUTH_TOKEN` in `.env`:
 ```env
 ANTHROPIC_BASE_URL="http://localhost:11434"
 ANTHROPIC_AUTH_TOKEN="ollama"
 AGENT_MODEL="llama3"
 ```
-2. `requireApiKey()` in `src/config/env.ts` accepts `"ollama"` as the auth token when `ANTHROPIC_BASE_URL` is set, allowing execution without a standard Anthropic API key.
+
+When `ANTHROPIC_BASE_URL` is set, `requireApiKey()` accepts `"ollama"` as the token, so no real
+Anthropic key is needed.
 
 ---
 
-## Usage
+## Architecture
 
-### Commands
+```
+src/
+├── index.ts              entry point, shebang, calls createCli()
+├── cli.ts                registers commands with Commander
+├── commands/
+│   ├── wake-up.ts        banner, doctor, mode picker, then chat
+│   └── chat.ts           the chat loop, slash commands, drainUntilResult
+├── agent/
+│   ├── modes.ts          MODES table, SDK options, PreToolUse guard
+│   ├── create-session.ts builds the query, recreates it when tools must widen
+│   ├── input-queue.ts    turns typed lines into SDK user messages
+│   ├── permissions.ts    canUseTool: mode check plus y/N confirmation
+│   ├── message-handler.ts prints SDK messages, holds output during prompts
+│   └── run-query.ts      one-shot prompt
+├── config/
+│   ├── env.ts            dotenv chain, requireApiKey, checkEnvironment
+│   └── constants.ts      re-exports mode labels, slash command list
+└── ui/
+    ├── banner.ts         figlet + boxen
+    ├── format.ts         chalk styles, truncate
+    └── spinner.ts        ora start/stop/suspend/resume
+```
 
-| Command | Usage | Description |
+### How a turn flows
+
+1. `startChat()` reads a line with Inquirer and pushes it to `InputQueue`.
+2. `InputQueue.generator()` hands the message to the SDK subprocess.
+3. The model replies. `drainUntilResult()` pulls messages until a `result` arrives.
+4. For each `tool_use`, the SDK calls `canUseTool`.
+5. `permissions.ts` denies anything outside the mode, then asks `[y/N]` in agent mode.
+6. `message-handler.ts` prints tool calls, tool results and the final answer.
+7. The loop returns to the prompt.
+
+### Four things worth knowing
+
+**Tools are fixed when a query starts.** The SDK exposes no `setTools`, so a session started in
+`ask` can never gain `Write`. `needsRecreation()` detects this and `/mode agent` rebuilds the
+query with `resume`, keeping the conversation. Narrowing (agent to ask) needs no restart: the
+PreToolUse hook denies the extra tools.
+
+**Never iterate the query with `for await`.** `Query[Symbol.asyncIterator]()` returns a generator
+whose `finally` calls `cleanup()`. Breaking out of a `for await` loop calls `.return()` on it,
+which sets `cleanupPerformed` and closes the transport, so later `setPermissionMode` calls reject
+with `Query closed before response received`. `drainUntilResult()` drives `.next()` manually and
+returns without closing, which keeps the session alive across turns.
+
+**Inquirer leaves stdin paused.** Adding a `data` listener to an already paused stream that still
+has one does not resume it, so `confirmWithUser` calls `stdin.resume()` explicitly. It also stops
+the spinner and holds SDK output, otherwise ora redraws over the prompt.
+
+**Tool results arrive as `user` messages with `parent_tool_use_id: null`.** They are found by
+looking for a `tool_result` content block, not by the parent id.
+
+### Safety model
+
+| Layer | Mechanism | Covers |
 |---|---|---|
-| `chat` | `node-cli chat [-m mode] [-v]` | Start an interactive streaming chat session |
-| `run` | `node-cli run <prompt> [-m mode] [-v]` | Send a one-shot prompt to Node CLI |
-| `talk` | `node-cli talk <prompt> [-v]` | Send a prompt in agent mode |
-| `doctor` | `node-cli doctor` | Verify Node.js version and API key setup |
-| `banner` | `node-cli banner` | Display stylized ASCII title banner |
-| `help` | `node-cli help` | Show CLI command help |
+| Prompt surface | `tools` | Hides tools from the model, shrinking context |
+| Name deny list | `disallowedTools` | Blocks irrelevant built-ins |
+| Hook | `PreToolUse` | Denies tools outside the mode, cannot be shadowed |
+| Callback | `canUseTool` | Asks before Edit, Write, Bash in agent mode |
+| Budget | `maxTurns`, `maxBudgetUsd` | Caps runaway turns and spend |
 
-### Options
+`settingSources: []` keeps user and project settings, skills and hooks off disk from adding
+allow rules that would override the above.
 
-- `-m, --mode <mode>`: set operation mode (`agent`, `ask`, or `plan`). Default is `agent`.
-- `-v, --verbose`: show detailed SDK message log types.
+---
 
-### Interactive Slash Commands (`node-cli chat`)
+## Scripts
 
-While inside an interactive chat session, the following slash commands are supported:
-
-| Slash Command | Description |
+| Script | Command |
 |---|---|
-| `/mode <agent\|ask\|plan>` | Dynamically switch mode during the chat session |
-| `/context` | Display compact token usage summary for active session |
-| `/help` | Show available slash commands |
-| `/clear` | Clear the terminal screen |
-| `/exit` | Gracefully terminate session and exit CLI process |
-
----
-
-## Operation Modes
-
-| Mode | Permission Mode | Allowed Tools | Disallowed Tools | Description |
-|---|---|---|---|---|
-| `agent` (default) | `acceptEdits` | `Read`, `Edit`, `Write`, `Bash`, `Glob`, `Grep` | None | Full agent loop; can read, edit files, and execute bash commands. |
-| `ask` | `dontAsk` | `Read`, `Grep`, `Glob`, `WebSearch`, `WebFetch` | `Edit`, `Write`, `Bash` | Read-only exploration mode. Answers questions without modifying files. |
-| `plan` | `plan` | `Read`, `Grep`, `Glob`, `WebSearch`, `WebFetch` | `Edit`, `Write`, `Bash` | Read-only mode designed to inspect and propose execution plans. |
-
----
-
-## Key Functions Cheat Sheet
-
-| File | Function | What it does |
-|---|---|---|
-| `src/cli.ts` | `createCli()` | Registers CLI commands and options using Commander.js. |
-| `src/config/env.ts` | `requireApiKey()` | Validates environment and resolves auth token or API key. |
-| `src/config/env.ts` | `checkEnvironment()` | Verifies Node.js version >= 18 and API key existence. |
-| `src/agent/modes.ts` | `buildModeOptions(mode)` | Builds SDK `Options` object (model, env, tools, maxTurns) for a given mode. |
-| `src/agent/modes.ts` | `parseCliMode(value)` | Parses and validates user mode input (`agent`, `ask`, `plan`). |
-| `src/agent/permissions.ts` | `createCanUseTool(getMode)` | Returns a `CanUseTool` callback that blocks `Edit`/`Write`/`Bash` in `ask` and `plan` modes. |
-| `src/agent/create-session.ts` | `createSession(mode)` | Initializes `InputQueue` and `Query` streaming handle for chat sessions. |
-| `src/agent/input-queue.ts` | `InputQueue.push(content)` | Pushes a user prompt string into the SDK async message generator. |
-| `src/agent/message-handler.ts` | `handleMessage(message, options)` | Formats and prints incoming SDK messages (`system`, `assistant`, `user`, `result`). |
-| `src/agent/run-query.ts` | `runQuery(prompt, options)` | Executes a single-turn `query()` call and processes stream outputs. |
-| `src/commands/chat.ts` | `startChat(options)` | Runs interactive REPL chat loop, handling prompts, slash commands, and graceful exit. |
-| `src/ui/banner.ts` | `printBanner()` | Renders figlet ASCII art and boxed banner. |
-| `src/ui/spinner.ts` | `startSpinner(text)` / `stopSpinner()` | Controls terminal loading spinner via `ora`. |
-
----
-
-## Project Structure
-
-```
-node-cli/
-├── src/
-│   ├── index.ts              # CLI entry point
-│   ├── cli.ts                # Commander CLI setup
-│   ├── commands/
-│   │   └── chat.ts           # Interactive chat REPL & slash commands
-│   ├── config/
-│   │   ├── constants.ts      # Modes, descriptions, slash command definitions
-│   │   └── env.ts            # Environment checks & API key validation
-│   ├── agent/
-│   │   ├── create-session.ts # Session factory for streaming query
-│   │   ├── input-queue.ts    # Async iterator mapping prompts to SDK user messages
-│   │   ├── message-handler.ts# Renders SDK response stream to terminal
-│   │   ├── modes.ts          # Options builder & permission modes
-│   │   ├── permissions.ts    # Dynamic canUseTool permission enforcement
-│   │   └── run-query.ts      # One-shot query runner
-│   └── ui/
-│       ├── banner.ts         # Figlet & Boxen banner renderer
-│       ├── format.ts         # Chalk string styling utilities
-│       └── spinner.ts        # Ora spinner helpers
-├── package.json
-├── tsconfig.json
-└── .env                      # Environment settings
-```
-
----
-
-## Known Limits / Gotchas
-
-- **Free Model Limits**: The default model (`poolside/laguna-s-2.1:free`) runs on OpenRouter's free tier, which can encounter rate limits (HTTP 429) or quota errors under heavy usage.
-- **Session Constraints**: `BASE_OPTIONS` in `src/agent/modes.ts` caps maximum turns per query (`maxTurns: 25`) and budget limit (`maxBudgetUsd: 1.0`).
-- **Tool Restriction Enforcement**: Changing mode mid-session via `/mode` updates SDK `permissionMode` and `canUseTool`, but initial `allowedTools` list is fixed when the underlying query process starts.
-- **Package Manager Lock**: Enforced to `pnpm@12.10.1` in `package.json` (`devEngines`).
+| `pnpm dev` | `tsx src/index.ts` |
+| `pnpm dev:watch` | `tsx watch src/index.ts` |
+| `pnpm build` | `tsc` |
+| `pnpm start` | `node dist/index.js` |
+| `pnpm test` | `tsx --test "src/**/*.test.ts"` |
+| `pnpm typecheck` | `tsc --noEmit` |
 
 ---
 
 ## Troubleshooting
 
-1. **`Error: ANTHROPIC_API_KEY is not defined.`**  
-   *Fix*: Add `OPENROUTER_API_KEY` or `ANTHROPIC_API_KEY` to your `.env` file.
+**`ANTHROPIC_API_KEY is not defined`** — `cp .env ~/.node-cli.env`.
 
-2. **`Error: Node version must be >= 18`**  
-   *Fix*: Upgrade your Node.js runtime to version 18.0.0 or higher.
+**`EBADDEVENGINES` / `Invalid name "pnpm"`** — use pnpm, not npm or yarn.
 
-3. **`npm error EBADDEVENGINES / Invalid name "pnpm"`**  
-   *Fix*: Run commands using `pnpm` (v12.10.1+) instead of `npm` or `yarn`.
+**`Invalid mode`** — use `agent`, `ask` or `plan`.
 
-4. **`Error: Invalid mode: <val>. Use agent, ask, or plan.`**  
-   *Fix*: Provide a valid mode parameter: `-m agent`, `-m ask`, or `-m plan`.
+**Tool disallowed in this mode** — `/mode agent`.
 
-5. **`Tool '...' is disallowed in '...' mode.`**  
-   *Fix*: Switch to `agent` mode using `/mode agent` to enable file editing and bash commands.
+**Free model rate limits** — the default model runs on OpenRouter's free tier.
 
-6. **`Context usage not available for this session`**  
-   *Fix*: Wait for the session to finish initializing before executing `/context`.
+**Mode switch restarts the session** — expected when widening tools; history is resumed.
 
 ---
 
-## Development & Scripts
+## Requirements
 
-| Script | Command | Description |
-|---|---|---|
-| `pnpm dev` | `tsx src/index.ts` | Run CLI in development mode |
-| `pnpm dev:watch` | `tsx watch src/index.ts` | Run CLI in watch mode |
-| `pnpm build` | `tsc` | Compile TypeScript to `dist/` |
-| `pnpm start` | `node dist/index.js` | Run compiled distribution build |
-
----
-
-## Noticed While Documenting
-
-- In `src/config/env.ts:L8`, `requireApiKey()` checks `process.env.ANTHROPIC_BASE_URL`, whereas `BASE_OPTIONS` in `src/agent/modes.ts:L18` defaults `env.ANTHROPIC_BASE_URL` to `"https://openrouter.ai/api"`.
-- In `src/config/constants.ts:L7`, `MODE_DESCRIPTIONS.ask` contains a small typo: `"Ready only exploration..."` instead of `"Read only exploration..."`.
-- In `src/agent/message-handler.ts:L55-L58`, there is a duplicate `break;` statement in `case "assistant":`.
+Node.js >= 18, pnpm >= 12.10.1. `pnpm@12.10.1` is pinned in `package.json`.

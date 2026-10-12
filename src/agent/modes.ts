@@ -3,15 +3,8 @@ import type { HookCallback, Options, PermissionMode } from "@anthropic-ai/claude
 export type Climode = "agent" | "ask" | "plan";
 
 const READ_TOOLS = ["Read", "Grep", "Glob", "WebSearch", "WebFetch"] as const;
-// Agent is deliberately the union of READ_TOOLS plus the write tools. The SDK
-// fixes a query's tool list at initialisation, so only a superset relationship
-// lets agent -> ask/plan reuse the live query instead of restarting it.
 const AGENT_TOOLS = [...READ_TOOLS, "Edit", "Write", "Bash"] as const;
 
-/**
- * Irrelevant built-ins. These are removed from the prompt entirely (via `tools`)
- * AND denied by name, as a second layer of defence.
- */
 const NEVER_TOOLS = [
     "Agent",
     "Task",
@@ -35,17 +28,9 @@ const READ_ONLY_PROMPT =
 
 const AGENT_PROMPT = "Be efficient. Make the smallest change that solves the task.";
 
-/**
- * Single source of truth for every mode. buildModeOptions, the permission-mode
- * mapping, the picker choices and the help text are all derived from this.
- */
 export const MODES = {
     agent: {
         tools: [...AGENT_TOOLS],
-        // Must stay "default": the SDK defines 'acceptEdits' as "Auto-accept file
-        // edit operations" and documents 'default' as the mode that "keeps manual
-        // approvals through canUseTool" (sdk.d.ts Options.permissionMode). Under
-        // 'acceptEdits' the Edit confirmation in permissions.ts would never fire.
         permissionMode: "default",
         maxTurns: 25,
         prompt: AGENT_PROMPT,
@@ -95,17 +80,10 @@ const BASE_OPTIONS = {
     },
     maxBudgetUsd: 1.0,
     effort: "medium" as const,
-    // Isolation mode: no user/project settings, CLAUDE.md, skills or hooks from
-    // disk can inject allow rules, extra tools or instructions over our config.
     settingSources: [] as Options["settingSources"],
-    // No skills unless explicitly enabled - they cost context on every request.
     skills: [],
 };
 
-/**
- * Tools visible to the model for the given mode. `tools` (not `allowedTools`)
- * is what shrinks the prompt, because it removes the definitions entirely.
- */
 export function buildModeOptions(mode: Climode): Options {
     const config = MODES[mode];
     return {
@@ -126,10 +104,6 @@ export function CliModeToPermissionMode(mode: Climode): PermissionMode {
     return MODES[mode].permissionMode;
 }
 
-/**
- * Module-level live mode. `tools` is fixed when the query starts and cannot be
- * changed mid-session, so the runtime hook and canUseTool both read this instead.
- */
 let currentMode: Climode = "agent";
 
 export function getCurrentMode(): Climode {
@@ -144,11 +118,6 @@ export function isToolAllowedInMode(mode: Climode, toolName: string): boolean {
     return (MODES[mode].tools as readonly string[]).includes(toolName);
 }
 
-/**
- * Runtime enforcement. PreToolUse is the only gate that is guaranteed to run for
- * every tool call - bare `allowedTools` entries and settings allow-rules can both
- * shadow `canUseTool`, whereas this hook cannot be shadowed.
- */
 export function createModeGuardHook(): HookCallback {
     return async (input) => {
         if (input.hook_event_name !== "PreToolUse") {

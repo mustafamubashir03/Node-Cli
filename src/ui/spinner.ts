@@ -22,10 +22,6 @@ export function stopSpinner() {
     active = null;
 }
 
-/**
- * Hide the spinner while something else writes to the terminal. ora redraws on
- * the line the cursor is on, so any prompt written while it runs is overwritten.
- */
 export function suspendSpinner() {
     if (!active || suspended) return;
     suspended = true;

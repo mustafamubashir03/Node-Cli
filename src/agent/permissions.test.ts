@@ -4,11 +4,6 @@ import { buildModeOptions, CliModeToPermissionMode, setCurrentMode, MODES } from
 import { createCanUseTool } from "../agent/permissions.js";
 import { startSpinner, stopSpinner, isSpinnerActive, resumeSpinner, suspendSpinner } from "../ui/spinner.js";
 
-/**
- * The SDK documents 'default' as the mode that "keeps manual approvals through
- * canUseTool". These pin that agent mode keeps that, and that the confirmation
- * is reachable. They do not prove how the native subprocess orders the two gates.
- */
 
 test("agent mode does not use a permissionMode that auto-accepts edits", () => {
     const agent: any = buildModeOptions("agent");
@@ -16,7 +11,6 @@ test("agent mode does not use a permissionMode that auto-accepts edits", () => {
     assert.notEqual(MODES.agent.permissionMode, "acceptEdits");
 });
 
-/** Drives the real prompt by emitting the `data` event its listener waits for. */
 async function answer(answer: string, tool = "Edit") {
     const can: any = createCanUseTool();
     const pending = can(tool, { file_path: "src/example.ts", command: "echo hi" });
@@ -86,12 +80,10 @@ test("a denied edit does not leave the session in a broken state", async () => {
     const can: any = createCanUseTool();
     assert.equal((await answer("n")).behavior, "deny");
     assert.equal((await can("Read", { file_path: "src/other.ts" })).behavior, "allow");
-    // Bash is still gated rather than silently allowed.
     assert.equal((await answer("n", "Bash")).behavior, "deny");
     assert.equal((await answer("y", "Bash")).behavior, "allow");
 });
 
-/* Input handling rather than rendering - no TTY is available in this environment. */
 
 test("bare Enter (empty input) denies - documented default-deny", async () => {
     setCurrentMode("agent");
@@ -139,7 +131,6 @@ test("successive prompts do not consume each other's input", async () => {
 test("stdin is left paused so typed input is not silently discarded", async () => {
     setCurrentMode("agent");
     await answer("y");
-    // A flowing stdin with no 'data' listener drops whatever the user types next.
     assert.equal(process.stdin.isPaused(), true);
 });
 
@@ -151,11 +142,6 @@ test("prompt listeners are removed so successive prompts do not stack up", async
     assert.equal(process.stdin.listenerCount("data"), before, "no leaked data listeners");
 });
 
-/*
- * Regression: ora redraws on the line the cursor is on, so a prompt written while
- * the spinner runs is overwritten within one frame. The turn then waits forever
- * for an answer the user cannot see.
- */
 
 test("the spinner is stopped while a confirmation prompt is on screen", async () => {
     setCurrentMode("agent");
@@ -194,11 +180,6 @@ test("suspend and resume are idempotent", () => {
     assert.equal(isSpinnerActive(), false);
 });
 
-/**
- * Inquirer leaves stdin paused with a data listener still attached, and Node does
- * not resume a paused stream when a further data listener is added. Without an
- * explicit resume the prompt waits forever and the CLI appears frozen.
- */
 test("the prompt resumes stdin so a paused stream can deliver the answer", async () => {
     setCurrentMode("agent");
     process.stdin.pause();
@@ -217,7 +198,6 @@ test("concurrent approvals are queued so one keypress answers only one", async (
     const first = can("Write", { file_path: "a.txt" });
     const second = can("Write", { file_path: "b.txt" });
 
-    // The second prompt must not be listening yet.
     assert.equal(process.stdin.listenerCount("data"), 1, "only one prompt may read stdin");
 
     process.stdin.emit("data", Buffer.from("y\n"));
@@ -233,7 +213,6 @@ test("tool notifications are withheld while a prompt is waiting", async () => {
     setCurrentMode("agent");
     const can: any = createCanUseTool();
     const pending = can("Write", { file_path: "c.txt" });
-    // message-handler buffers into the same hold that resumeOutput flushes.
     const { handleMessage, resumeOutput } = await import("./message-handler.ts");
     handleMessage({
         type: "assistant",

@@ -3,9 +3,6 @@ import assert from "node:assert/strict";
 import { needsRecreation, type AgentSession } from "./create-session.js";
 import { buildModeOptions, MODES, CliModeToPermissionMode, type Climode } from "./modes.js";
 
-/**
- * Configuration only - not proof that the native subprocess received the tools.
- */
 function fakeSession(mode: Climode, sessionId?: string): AgentSession {
     return {
         query: null as any,
@@ -19,10 +16,8 @@ function fakeSession(mode: Climode, sessionId?: string): AgentSession {
 
 test("needsRecreation follows the tool-surface relationship", () => {
     const cases: [Climode, Climode, boolean][] = [
-        // widening - the model was never offered Write/Edit/Bash
         ["ask", "agent", true],
         ["plan", "agent", true],
-        // narrowing and same-mode reuse the live query
         ["agent", "ask", false],
         ["agent", "plan", false],
         ["ask", "plan", false],
@@ -40,8 +35,6 @@ test("only the first widening needs recreation; later ones reuse the live query"
     const s = fakeSession("ask");
     assert.equal(needsRecreation(s, "agent"), true);
 
-    // After recreation the session keeps the wider agent tool surface, so every
-    // later transition reuses the same query.
     s.mode = "agent";
     s.initialTools = MODES.agent.tools as readonly string[];
     for (let i = 0; i < 5; i++) {

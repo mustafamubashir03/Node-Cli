@@ -3,20 +3,12 @@ import { getCurrentMode, isToolAllowedInMode, MODES } from "./modes.js";
 import { resumeSpinner, suspendSpinner } from "../ui/spinner.js";
 import { pauseOutput, resumeOutput } from "./message-handler.js";
 
-/** Tools that require explicit confirmation in agent mode. */
 const CONFIRM_TOOLS = ["Edit", "Write", "Bash", "NotebookEdit"];
 
-/**
- * Prompts are serialised: the SDK can have more than one tool call awaiting
- * approval, and each prompt listens on the same stdin. Without a queue one
- * keystroke would answer all of them at once.
- */
 let queue: Promise<unknown> = Promise.resolve();
 let waiting = 0;
 
 function askOnce<T>(ask: () => Promise<T>): Promise<T> {
-    // The first prompt must start synchronously so it is listening on stdin
-    // before anything can answer it.
     const started = waiting === 0 ? ask() : queue.then(ask, ask);
     waiting++;
     return started.finally(() => {
@@ -32,18 +24,12 @@ async function confirmWithUser(toolName: string, input: Record<string, unknown>)
         (typeof input.pattern === "string" && input.pattern) ||
         "";
 
-    // ora redraws on whichever line the cursor is on, and the SDK keeps printing
-    // tool notifications while we wait - both would overwrite the prompt.
     suspendSpinner();
     pauseOutput();
     process.stdout.write(`\nAllow '${toolName}${detail ? ` (${detail})` : ""}'? [y/N] `);
 
     return new Promise<boolean>((resolve) => {
         const stdin = process.stdin;
-        // Inquirer leaves stdin paused after its prompt. Adding a 'data' listener
-        // to an already-paused stream that still has one does NOT resume it, so
-        // the prompt would wait forever. Resume explicitly, and pause again on
-        // the way out so we do not hold the event loop open.
         stdin.resume();
         const cleanup = () => {
             stdin.removeListener("data", onData);
@@ -51,7 +37,6 @@ async function confirmWithUser(toolName: string, input: Record<string, unknown>)
             stdin.removeListener("error", onError);
             stdin.pause();
         };
-        // Default-deny: bare Enter, EOF or a stdin error must never approve a write.
         const settle = (allowed: boolean) => {
             cleanup();
             process.stdout.write("\n");
@@ -76,10 +61,6 @@ async function confirmWithUser(toolName: string, input: Record<string, unknown>)
     });
 }
 
-/**
- * Second enforcement layer, alongside the PreToolUse hook in modes.ts. Both read
- * the live module-level mode, so /mode applies immediately.
- */
 export function createCanUseTool(): CanUseTool {
     return async (toolName, input) => {
         const mode = getCurrentMode();

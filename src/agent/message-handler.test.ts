@@ -3,11 +3,6 @@ import assert from "node:assert/strict";
 import type { SDKMessage } from "@anthropic-ai/claude-agent-sdk";
 import { handleMessage, pauseOutput, resumeOutput } from "./message-handler.js";
 
-/**
- * Tool results arrive as `user` messages whose `parent_tool_use_id` is null
- * (SDKUserMessage declares it `string | null`), so they must be found by their
- * content block rather than by the parent id.
- */
 
 function capture() {
     const lines: string[] = [];

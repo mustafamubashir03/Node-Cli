@@ -17,7 +17,6 @@ function contentToString(content: unknown): string {
     return ""
 }
 
-/** Short, human-readable summary of a tool's input - never a full dump. */
 function summarizeToolInput(name: string, input: unknown): string {
     if (!input || typeof input !== "object") {
         return "";
@@ -53,11 +52,6 @@ export interface MessageHandlerOptions {
     verbose?: boolean;
 }
 
-/*
- * The SDK keeps streaming messages while a permission request is outstanding, so
- * tool notifications used to land on top of the approval prompt. Buffer them
- * until the prompt is answered.
- */
 let held: string[] | null = null;
 
 export function pauseOutput(): void {
@@ -103,8 +97,6 @@ export function handleMessage(message: SDKMessage, options: MessageHandlerOption
 
             break;
         case "user":
-            // Tool results arrive as `user` messages with parent_tool_use_id set to
-            // null, so they are identified by their content block instead.
             const blocks = Array.isArray(message.message.content) ? message.message.content : [];
             for (const block of blocks as { type?: string; is_error?: boolean; content?: unknown }[]) {
                 if (block?.type !== "tool_result") continue;

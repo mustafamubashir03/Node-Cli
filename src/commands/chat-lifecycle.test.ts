@@ -3,12 +3,6 @@ import assert from "node:assert/strict";
 import type { SDKMessage } from "@anthropic-ai/claude-agent-sdk";
 import { drainUntilResult } from "./chat.js";
 
-/**
- * Mirrors the SDK stream shape: `Query[Symbol.asyncIterator]()` hands back a
- * generator whose `finally` runs `cleanup()`, after which `request()` rejects
- * with Error("Query closed before response received"). Lets the lifecycle be
- * driven without a live model call.
- */
 function createFakeQuery() {
     const pending: SDKMessage[] = [];
     let resolveNext: (() => void) | undefined;
@@ -76,7 +70,6 @@ test("drainUntilResult leaves the session open across turns", async () => {
     assert.deepEqual(seen, ["assistant", "result"]);
     assert.equal(q.isClosed(), false, "session must stay alive after a result");
 
-    // Turn 2 - proves the iterator is reusable
     seen.length = 0;
     q.emit(msg("assistant"));
     q.emit(msg("result"));
@@ -101,7 +94,6 @@ test("repeated mode switches keep setPermissionMode working", async () => {
 test("drainUntilResult returns when the stream is done", async () => {
     const q = createFakeQuery();
     q.emit(msg("assistant"));
-    // Generators are lazy: prime the body so the finally block can ever run.
     await q.stream.next();
     await q.stream.return(undefined as never);
     assert.equal(q.isClosed(), true, "explicit return() closes, as expected");
