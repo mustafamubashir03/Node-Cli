@@ -1,8 +1,8 @@
 import { Options, query } from "@anthropic-ai/claude-agent-sdk";
-import { handleMessage } from "./message-handler.ts";
-import { stopSpinner } from "../ui/spinner.ts";
-import { fmt } from "../ui/format.ts";
-import { buildModeOptions, type Climode } from "./modes.ts";
+import { handleMessage } from "./message-handler.js";
+import { stopSpinner } from "../ui/spinner.js";
+import { fmt } from "../ui/format.js";
+import { buildModeOptions, type Climode } from "./modes.js";
 
 export type RunQueryOptions = {
     mode?: Climode;

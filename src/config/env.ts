@@ -1,6 +1,12 @@
 import chalk from "chalk";
-import "dotenv/config"
+import { config } from "dotenv";
 import { execa } from "execa";
+
+// A ./.env wins, so a project can override the bundled defaults. The package's own
+// .env is the fallback: when the CLI is run from an installed location the cwd is
+// the user's project, not this directory.
+config();
+config({ path: new URL("../../.env", import.meta.url) });
 
 export function requireApiKey(): string {
     // Local Ollama (or any custom endpoint): a real Anthropic key isn't needed

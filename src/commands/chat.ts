@@ -1,14 +1,24 @@
 import { input } from "@inquirer/prompts";
-import { fmt } from "../ui/format.ts";
-import { handleMessage } from "../agent/message-handler.ts";
-import { CliModeToPermissionMode, parseCliMode, type Climode } from "../agent/modes.ts";
-import { SLASH_COMMANDS } from "../config/constants.ts";
-import { startSpinner, stopSpinner } from "../ui/spinner.ts";
-import { createSession, type AgentSession } from "../agent/create-session.ts";
+import type { SDKMessage } from "@anthropic-ai/claude-agent-sdk";
+import { fmt } from "../ui/format.js";
+import { handleMessage } from "../agent/message-handler.js";
+import {
+    CliModeToPermissionMode,
+    parseCliMode,
+    setCurrentMode,
+    type Climode,
+} from "../agent/modes.js";
+import { SLASH_COMMANDS } from "../config/constants.js";
+import { startSpinner, stopSpinner } from "../ui/spinner.js";
+import { createSession, recreateSession, needsRecreation, type AgentSession } from "../agent/create-session.js";
 
 export type ChatOptions = {
     mode?: Climode;
     verbose?: boolean;
+}
+
+function printModeHeader(session: AgentSession): void {
+    console.log(fmt.mode(`Chatting with Node Cli in ${session.mode} mode`));
 }
 
 function printSlashHelp(): void {
@@ -17,6 +27,18 @@ function printSlashHelp(): void {
         console.log(fmt.dim(`${command.padEnd(22)} | ${description}`));
     }
     console.log();
+}
+
+export async function drainUntilResult(
+    stream: AsyncIterator<SDKMessage>,
+    onMessage: (message: SDKMessage) => void
+): Promise<void> {
+    for (; ;) {
+        const { value, done } = await stream.next();
+        if (done) return;
+        onMessage(value);
+        if (value.type === "result") return;
+    }
 }
 
 async function handleSlashCommand(
@@ -60,11 +82,37 @@ async function handleSlashCommand(
             console.log(fmt.error(`Unknown mode: ${modeArg}. Use agent, ask, or plan.`));
             return { handled: true };
         }
+        if (needsRecreation(session, newMode)) {
+            const hadHistory = Boolean(session.sessionId);
+            console.log(
+                fmt.info(`${newMode} mode needs tools this session was not started with - restarting the session...`),
+            );
+            try {
+                await recreateSession(session, newMode);
+            } catch (error) {
+                console.error(
+                    fmt.error(
+                        `Could not restart the session for ${newMode} mode: ${error}. The previous session was closed.`,
+                    ),
+                );
+                return { handled: true };
+            }
+            setCurrentMode(newMode);
+            printModeHeader(session);
+            const history = hadHistory
+                ? "Conversation history resumed"
+                : "New conversation (no prior session id to resume)";
+            console.log(fmt.dim(`${history}. Tools: ${session.initialTools.join(", ")}`));
+            return { handled: true, newMode };
+        }
+
         await session.query.setPermissionMode(CliModeToPermissionMode(newMode));
         session.mode = newMode;
-        console.log(fmt.mode(`Mode switched to ${newMode}`));
+        setCurrentMode(newMode);
+        printModeHeader(session);
+        console.log(fmt.dim(`Tools: ${session.mode === "agent" ? "Read, Grep, Glob, Edit, Write, Bash" : "Read, Grep, Glob, WebSearch, WebFetch (read-only)"}`));
         if (verbose) {
-            console.log(fmt.dim(`Permission mode now: ${newMode}`));
+            console.log(fmt.dim(`Permission mode now: ${CliModeToPermissionMode(newMode)}`));
         }
         return { handled: true, newMode };
     }
@@ -80,7 +128,7 @@ async function handleSlashCommand(
 export async function startChat(options: ChatOptions): Promise<void> {
     const { mode: initialMode = "agent", verbose = false } = options;
     const session = createSession(initialMode);
-    console.log(fmt.mode(`Chatting with Node Cli in ${initialMode} mode`));
+    printModeHeader(session);
     console.log(fmt.dim("Enter /help to see available commands"));
     printSlashHelp();
 
@@ -95,10 +143,10 @@ export async function startChat(options: ChatOptions): Promise<void> {
         session.inputQueue.close();
         try {
             await session.query.interrupt();
-        } catch {}
+        } catch { }
         try {
             await session.query.return();
-        } catch {}
+        } catch { }
         console.log(fmt.dim("Goodbye!"));
         setTimeout(() => process.exit(0), 1500).unref();
         process.exit(0);
@@ -139,19 +187,22 @@ export async function startChat(options: ChatOptions): Promise<void> {
 
             const slash = await handleSlashCommand(trimmed, session, verbose);
             if (slash.handled) {
-                if (slash.newMode) session.mode = slash.newMode;
+                if (slash.newMode) {
+                    session.mode = slash.newMode;
+                    setCurrentMode(slash.newMode);
+                }
                 continue;
             }
 
             startSpinner("Agent working...");
             session.inputQueue.push(trimmed);
             try {
-                for await (const message of session.query) {
-                    handleMessage(message, { verbose });
-                    if (message.type === "result") {
-                        break;
+                await drainUntilResult(session.stream, (message) => {
+                    if (message.type === "system" && message.subtype === "init") {
+                        session.sessionId = message.session_id;
                     }
-                }
+                    handleMessage(message, { verbose });
+                });
             } catch (error) {
                 console.error(fmt.error(`Session error: ${error}`));
             } finally {

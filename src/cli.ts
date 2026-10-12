@@ -1,13 +1,21 @@
 import { Command } from "commander";
-import { printBanner } from "./ui/banner.ts";
-import { checkEnvironment, requireApiKey } from "./config/env.ts";
-import { runQuery } from "./agent/run-query.ts";
-import { Climode, parseCliMode } from "./agent/modes.ts";
-import { startChat } from "./commands/chat.ts";
+import { printBanner } from "./ui/banner.js";
+import { checkEnvironment, requireApiKey } from "./config/env.js";
+import { runQuery } from "./agent/run-query.js";
+import { Climode, parseCliMode } from "./agent/modes.js";
+import { startChat } from "./commands/chat.js";
+import { wakeUp } from "./commands/wake-up.js";
 
 
 export function createCli() {
     const program = new Command().name("node-cli").description("A cli tool to help u start your project").version("0.1.0");
+    program.command("talk").description("Talk to Node Cli").argument("<prompt>", "The prompt to send to Claude").option("-v, --verbose", "Enable verbose output").action(async (prompt: string, options: { verbose?: boolean }) => {
+        requireApiKey()
+        await runQuery(prompt, options)
+    })
+    program.command('wake-up').description('Banner, preflight, mode picker, then chat').action(async () => {
+        await wakeUp()
+    })
     program.command('run').description('send a one-shot prompt to Node Cli').argument('<prompt>', "What to ask Node Cli...").option("-m, --mode <value>", "The mode to use: agent|ask|plan", parseMode, "agent").option("-v, --verbose", "Enable verbose output", false).action(async (prompt: string, options: { mode?: string, verbose?: boolean }) => {
         requireApiKey()
         await runQuery(prompt, { mode: parseMode(options.mode as string), verbose: options.verbose })
@@ -18,10 +26,6 @@ export function createCli() {
     })
     program.command("banner").description("Show the banner").action(() => {
         printBanner()
-    })
-    program.command("talk").description("Talk to Node Cli").argument("<prompt>", "The prompt to send to Claude").option("-v, --verbose", "Enable verbose output").action(async (prompt: string, options: { verbose?: boolean }) => {
-        requireApiKey()
-        await runQuery(prompt, options)
     })
     program.command("doctor").description("Check your environment").action(async () => {
         await checkEnvironment()

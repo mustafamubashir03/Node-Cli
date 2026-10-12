@@ -1,7 +1,8 @@
-import { createCli } from "./cli.ts";
+#!/usr/bin/env node
+import { createCli } from "./cli.js";
 
 function main() {
-    createCli().parse();
+    createCli().parse(process.argv);
 }
 
 main();

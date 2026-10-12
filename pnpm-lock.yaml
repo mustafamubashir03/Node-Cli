@@ -172,12 +172,6 @@ importers:
       '@inquirer/prompts':
         specifier: ^8.7.3
         version: 8.7.3(@types/node@26.6.4)
-      '@types/figlet':
-        specifier: ^1.7.0
-        version: 1.7.0
-      '@types/node':
-        specifier: ^26.6.4
-        version: 26.6.4
       boxen:
         specifier: ^9.0.0
         version: 9.0.0
@@ -199,13 +193,19 @@ importers:
       ora:
         specifier: ^9.4.1
         version: 9.4.1
-      typescript:
-        specifier: ^7.0.2
-        version: 7.0.2
     devDependencies:
+      '@types/figlet':
+        specifier: ^1.7.0
+        version: 1.7.0
+      '@types/node':
+        specifier: ^26.6.4
+        version: 26.6.4
       tsx:
         specifier: ^4.23.15
         version: 4.23.15
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
 
 packages:
 
