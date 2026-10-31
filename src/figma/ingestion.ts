@@ -1,4 +1,24 @@
 /**
+ * Bounding-box normalizer for Figma absoluteBoundingBox {x,y,width,height}.
+ * Used by summary, sections, discovery and guards.
+ */
+export interface NormalizedBBox {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
+export function normalizeBBox(bbox: { x: number; y: number; width?: number; height?: number; w?: number; h?: number } | undefined): NormalizedBBox | null {
+  if (!bbox) return null;
+  const w = bbox.width ?? bbox.w ?? 0;
+  const h = bbox.height ?? bbox.h ?? 0;
+  if (w <= 0 || h <= 0) return null;
+  return { x: bbox.x ?? 0, y: bbox.y ?? 0, w, h };
+}
+
+
+/**
  * Root guard: fails closed.
  * Rejects nodeId == root, bbox == root, or missing/zero bbox.
  * The root render only goes to reference/full.png inside the package.
