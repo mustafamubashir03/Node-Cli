@@ -1,4 +1,30 @@
 /**
+ * Root guard: fails closed.
+ * Rejects nodeId == root, bbox == root, or missing/zero bbox.
+ * The root render only goes to reference/full.png inside the package.
+ */
+export function isRootNode(nodeId: string, rootNodeId: string): boolean {
+  return nodeId === rootNodeId;
+}
+
+export function hasValidBbox(bbox: { x: number; y: number; width?: number; height?: number; w?: number; h?: number } | undefined): boolean {
+  if (!bbox) return false;
+  const w = bbox.width ?? bbox.w ?? 0;
+  const h = bbox.height ?? bbox.h ?? 0;
+  return w > 0 && h > 0;
+}
+
+export function isRootBbox(bbox: { x: number; y: number; width?: number; height?: number; w?: number; h?: number } | undefined, rootBbox: { x: number; y: number; width?: number; height?: number; w?: number; h?: number } | undefined): boolean {
+  if (!bbox || !rootBbox) return false;
+  const bw = bbox.width ?? bbox.w ?? 0;
+  const bh = bbox.height ?? bbox.h ?? 0;
+  const rw = rootBbox.width ?? rootBbox.w ?? 0;
+  const rh = rootBbox.height ?? rootBbox.h ?? 0;
+  return bw === rw && bh === rh && bbox.x === rootBbox.x && bbox.y === rootBbox.y;
+}
+
+
+/**
  * Normalizes a Figma node ID into a safe directory name.
  * Replaces ':' with '-' so "1:2" becomes "1-2".
  * Used for EVERY path built from a node id (package, raw, assets, sections, brief pointers).
