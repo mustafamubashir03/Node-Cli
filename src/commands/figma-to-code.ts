@@ -142,7 +142,7 @@ export async function runFigmaToCode(): Promise<void> {
         const fs2 = await import('fs')
         for (const u of spec.unresolved) {
           const svg = createPlaceholderAsset((u as any).nodeId || (u as any).id || 'unknown', (u as any).name || 'placeholder', {x:0,y:0,w:100,h:100})
-          try { if (!fs2.existsSync('.node-cli/figma-assets')) fs2.mkdirSync('.node-cli/figma-assets',{recursive:true}); fs2.writeFileSync(`.node-cli/figma-assets/placeholder-${(u as any).nodeId||'x'}.svg`, svg) } catch(e){}
+          try { fs2.mkdirSync(assetDir + '/assets', {recursive:true}); fs2.writeFileSync(`${assetDir}/assets/placeholder-${(u as any).nodeId||'x'}.svg`, svg) } catch(e){}
         }
       } catch(e){}
     }
@@ -166,7 +166,7 @@ export async function runFigmaToCode(): Promise<void> {
       const exportNodeIds = [parsed.nodeId || context.nodes[0]?.id].filter(Boolean) as string[];
 
       if (exportNodeIds.length > 0) {
-        const outputDir = ".node-cli/figma-assets";
+        const outputDir = assetDir + "/assets";
         const restClient = client.getRestClient();
         if (!restClient) {
           printFailure("No REST client available");
