@@ -127,19 +127,6 @@
         "vercel-composition-patterns"
       ],
       "rule": "compatible"
-    },
-    "fidelity-exclusions": {
-      "label": "Fidelity mode exclusions",
-      "description": "In fidelity mode, these skills are excluded: impeccable, no-ai-slop, apple-design, emil-design-eng, theme-factory. Only one from each group may be active.",
-      "skills": [
-        "impeccable",
-        "no-ai-slop",
-        "apple-design",
-        "emil-design-eng",
-        "theme-factory",
-        "frontend-design"
-      ],
-      "rule": "exactly-one"
     }
   },
   "skills": {
