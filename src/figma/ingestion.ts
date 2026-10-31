@@ -284,6 +284,13 @@ export function segmentSections(
             bbox: { x: bbox.x, y: bbox.y, w: bbox.width, h: bbox.height },
             nodeCount: child.children?.length ?? 0,
         });
+         // Write spec.json
+         writeFileSync(specJsonPath, JSON.stringify({ index: sectionIndex, name: child.name, bbox: { x: bbox.x, y: bbox.y, w: bbox.width, h: bbox.height }, nodeCount: child.children?.length ?? 0 }, null, 2));
+         // Write spec.md
+         writeFileSync(join(dir, "spec.md"), `# ${child.name}\n\n## Bounding Box\n- x: ${bbox.x}, y: ${bbox.y}, w: ${bbox.width}, h: ${bbox.height}\n\n## Node Count\n${child.children?.length ?? 0} children\n`);
+         // Write assets.json
+         writeFileSync(join(dir, "assets.json"), JSON.stringify([], null, 2));
+
         sectionIndex++;
     }
 
