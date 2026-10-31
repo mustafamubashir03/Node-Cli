@@ -133,20 +133,8 @@ export async function runFigmaToCode(): Promise<void> {
     // Segment sections
     const sections: any[] = segmentSections(rootNode, assetDir)
 
-    // Create section directories and specs
-    if (!fs.existsSync(`${assetDir}/sections`)) {
-      fs.mkdirSync(`${assetDir}/sections`, { recursive: true })
-    }
-
-    sections.forEach((section: any, index: number) => {
-      const slug = (section.name||'section').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')
-      const sectionDir = `${assetDir}/sections/${index}-${slug}`
-      if (!fs.existsSync(sectionDir)) {
-        fs.mkdirSync(sectionDir, { recursive: true })
-      }
-      fs.writeFileSync(`${sectionDir}/spec.json`, JSON.stringify(section, null, 2))
-      fs.writeFileSync(`${sectionDir}/assets.json`, JSON.stringify([], null, 2))
-    })
+    // Section directories and specs are already created by segmentSections in ingestion.ts
+    // No second writer needed here.
 
     // Handle placeholder failures for unresolved items
     if (spec.unresolved.length > 0) {
