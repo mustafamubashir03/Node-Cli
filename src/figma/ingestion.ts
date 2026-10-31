@@ -246,7 +246,9 @@ export function segmentSections(
         const isFullWidth = rootWidth > 0 && bbox.width >= rootWidth * 0.9;
         if (!isFullWidth) continue;
 
-        const slug = child.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
+        const firstText = (child.children || []).find((c) => c.type === "TEXT");
+         const slugBase = firstText ? child.name + " " + (firstText.characters || firstText.name) : child.name;
+         const slug = slugBase.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
         const dir = join(packageDir, "sections", `${String(sectionIndex + 1).padStart(2, "0")}-${slug}`);
         mkdirSync(dir, { recursive: true });
         const specJsonPath = join(dir, "spec.json");
