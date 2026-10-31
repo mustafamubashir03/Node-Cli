@@ -6,7 +6,7 @@ import { parseFigmaUrl, validateFigmaUrl } from "../figma/url-parser.js";
 import { generateDesignSpec } from "../figma/design-spec.js";
 import { writeFigmaDesignSpec } from "../figma/artifact.js";
 import { findImageFillNodes, downloadFigmaAssets, writeAssetManifest } from "../figma/assets.js";
-import { walkFigmaTree, discoverAssets, segmentSections, createPlaceholderAsset, printTreeSummary, countNodesByType, getMaxDepth, isFlattenedImage, type DiscoveredAssets } from "../figma/ingestion.js";
+import { walkFigmaTree, discoverAssets, segmentSections, createPlaceholderAsset, printTreeSummary, countNodesByType, getMaxDepth, isFlattenedImage, safeNodeDir, type DiscoveredAssets } from "../figma/ingestion.js";
 
 /**
  * First-class Figma-to-Code entry point.
@@ -109,7 +109,7 @@ export async function runFigmaToCode(): Promise<void> {
     printNotice("Ingesting Figma tree and discovering assets...")
 
     const fileKey = validation.parsed!.fileKey
-    const rootNodeId = (context.nodes[0]?.id || '').replace(/:/g, '_')
+    const rootNodeId = safeNodeDir(context.nodes[0]?.id || '')
     const assetDir = `.node-cli/figma/${fileKey}/${rootNodeId}`
 
     // Walk the tree to understand structure

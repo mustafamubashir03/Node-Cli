@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, writeFileSync, readFileSync } from "node:fs";
 import { join, extname } from "node:path";
 import { FigmaRestClient } from "./rest-client.js";
 import type { FigmaAsset, FigmaNode } from "./types.js";
+import { safeNodeDir } from "./ingestion.js";
 
 export interface AssetManifest {
   fileKey: string;
@@ -89,7 +90,7 @@ export async function downloadFigmaAssets(
     }
 
     asset.sourceUrl = url;
-    const fileName = `${nodeId.replace(/:/g, "-")}.${format}`;
+    const fileName = `${safeNodeDir(nodeId)}.${format}`;
     const localPath = join(outputDir, fileName);
 
     try {
