@@ -262,6 +262,8 @@ export function segmentSections(
         if (child.type !== "FRAME" && child.type !== "GROUP") continue;
         const bbox = child.absoluteBoundingBox;
         if (!bbox) continue;
+        const nBbox = normalizeBBox(bbox);
+        const sectionBbox = nBbox || { x: bbox.x, y: bbox.y, w: bbox.width, h: bbox.height };
 
         const isFullWidth = rootWidth > 0 && bbox.width >= rootWidth * 0.9;
         if (!isFullWidth) continue;
