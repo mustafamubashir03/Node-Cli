@@ -1,3 +1,14 @@
+/**
+ * Normalizes a Figma node ID into a safe directory name.
+ * Replaces ':' with '-' so "1:2" becomes "1-2".
+ * Used for EVERY path built from a node id (package, raw, assets, sections, brief pointers).
+ * Manifests and API calls keep the original "1:2" format.
+ */
+export function safeNodeDir(nodeId: string): string {
+  return nodeId.replace(/:/g, "-");
+}
+
+
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import type { FigmaNode, FigmaAsset } from "./types.js";
