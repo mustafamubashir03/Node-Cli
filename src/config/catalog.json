@@ -1,0 +1,1338 @@
+{
+  "version": 1,
+  "categories": {
+    "design": {
+      "label": "Design",
+      "description": "Visual design, UI polish, motion, and layout"
+    },
+    "react": {
+      "label": "React",
+      "description": "React/Next.js patterns, composition, view transitions"
+    },
+    "quality": {
+      "label": "Quality",
+      "description": "Accessibility, performance, SEO, best practices"
+    },
+    "workflow": {
+      "label": "Workflow",
+      "description": "Debugging, planning, verification, TDD"
+    },
+    "backend": {
+      "label": "Backend",
+      "description": "Databases, Postgres, server-side patterns"
+    },
+    "deploy": {
+      "label": "Deploy",
+      "description": "Deployment to Vercel and hosting platforms"
+    },
+    "testing": {
+      "label": "Testing",
+      "description": "Web app testing, Playwright, TDD"
+    },
+    "tooling": {
+      "label": "Tooling",
+      "description": "MCP servers, skill creation, dev tooling"
+    },
+    "writing": {
+      "label": "Writing",
+      "description": "Writing, editing, and prose improvement"
+    }
+  },
+  "presets": {
+    "recommended": {
+      "label": "Recommended",
+      "description": "Balanced starter set for most web projects",
+      "skills": [
+        "frontend-design",
+        "react-best-practices",
+        "web-design-guidelines",
+        "systematic-debugging",
+        "verification-before-completion",
+        "accessibility"
+      ]
+    },
+    "polished-web-app": {
+      "label": "Polished web app",
+      "description": "Recommended plus motion, SEO, and web-app testing",
+      "skills": [
+        "frontend-design",
+        "react-best-practices",
+        "web-design-guidelines",
+        "systematic-debugging",
+        "verification-before-completion",
+        "accessibility",
+        "emil-design-eng",
+        "impeccable",
+        "performance",
+        "seo",
+        "webapp-testing"
+      ]
+    },
+    "full-stack": {
+      "label": "Full-stack",
+      "description": "Polished web app plus database and backend tooling",
+      "skills": [
+        "frontend-design",
+        "react-best-practices",
+        "web-design-guidelines",
+        "systematic-debugging",
+        "verification-before-completion",
+        "accessibility",
+        "emil-design-eng",
+        "impeccable",
+        "performance",
+        "seo",
+        "webapp-testing",
+        "postgres-best-practices",
+        "test-driven-development"
+      ]
+    },
+    "minimal": {
+      "label": "Minimal",
+      "description": "Just design guidance and debugging",
+      "skills": [
+        "frontend-design",
+        "systematic-debugging"
+      ]
+    },
+    "none": {
+      "label": "None",
+      "description": "No skills loaded",
+      "skills": []
+    }
+  },
+  "conflictGroups": {
+    "design-foundation": {
+      "label": "Design foundation",
+      "description": "Pick only one design-foundation skill",
+      "skills": [
+        "frontend-design",
+        "impeccable"
+      ],
+      "rule": "exactly-one"
+    },
+    "motion": {
+      "label": "Motion",
+      "description": "Pick only one motion skill",
+      "skills": [
+        "emil-design-eng"
+      ],
+      "rule": "exactly-one"
+    },
+    "react-guidance": {
+      "label": "React guidance",
+      "description": "react-best-practices and vercel-composition-patterns are COMPATIBLE — both may be active",
+      "skills": [
+        "react-best-practices",
+        "vercel-composition-patterns"
+      ],
+      "rule": "compatible"
+    },
+    "fidelity-exclusions": {
+      "label": "Fidelity mode exclusions",
+      "description": "In fidelity mode, these skills are excluded: impeccable, no-ai-slop, apple-design, emil-design-eng, theme-factory. Only one from each group may be active.",
+      "skills": [
+        "impeccable",
+        "no-ai-slop",
+        "apple-design",
+        "emil-design-eng",
+        "theme-factory",
+        "frontend-design"
+      ],
+      "rule": "exactly-one"
+    }
+  },
+  "skills": {
+    "emil-design-eng": {
+      "name": "emil-design-eng",
+      "category": "design",
+      "sourceRepo": "github.com/emilkowalski/skills",
+      "sourceUrl": "https://github.com/emilkowalski/skills/tree/main/skills/emil-design-eng",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "animation",
+        "motion",
+        "easing",
+        "spring",
+        "popover",
+        "tooltip",
+        "gesture",
+        "drag",
+        "swipe",
+        "design",
+        "ui polish",
+        "component",
+        "button",
+        "framer-motion",
+        "motion.dev"
+      ],
+      "contextTokens": 800
+    },
+    "improve-animations": {
+      "name": "improve-animations",
+      "category": "design",
+      "sourceRepo": "github.com/emilkowalski/skills",
+      "sourceUrl": "https://github.com/emilkowalski/skills/tree/main/skills/improve-animations",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "improve animations",
+        "audit motion",
+        "motion audit",
+        "animation roadmap",
+        "make app feel better"
+      ],
+      "contextTokens": 600
+    },
+    "pick-ui-library": {
+      "name": "pick-ui-library",
+      "category": "tooling",
+      "sourceRepo": "github.com/emilkowalski/skills",
+      "sourceUrl": "https://github.com/emilkowalski/skills/tree/main/skills/pick-ui-library",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "which library",
+        "pick library",
+        "toasts",
+        "drag and drop",
+        "charts",
+        "command menu",
+        "base-ui",
+        "sonner",
+        "virtuoso",
+        "zustand"
+      ],
+      "contextTokens": 450
+    },
+    "review-animations": {
+      "name": "review-animations",
+      "category": "design",
+      "sourceRepo": "github.com/emilkowalski/skills",
+      "sourceUrl": "https://github.com/emilkowalski/skills/tree/main/skills/review-animations",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "review animation",
+        "review motion",
+        "animation review",
+        "motion review"
+      ],
+      "contextTokens": 500
+    },
+    "apple-design": {
+      "name": "apple-design",
+      "category": "design",
+      "sourceRepo": "github.com/emilkowalski/skills",
+      "sourceUrl": "https://github.com/emilkowalski/skills/tree/main/skills/apple-design",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "apple design",
+        "fluid interface",
+        "spring animation",
+        "drag",
+        "swipe",
+        "sheet",
+        "momentum",
+        "interruptible",
+        "backdrop-filter",
+        "typography",
+        "optical sizing"
+      ],
+      "contextTokens": 1200
+    },
+    "accessibility": {
+      "name": "accessibility",
+      "category": "quality",
+      "sourceRepo": "github.com/addyosmani/web-quality-skills",
+      "sourceUrl": "https://github.com/addyosmani/web-quality-skills/tree/main/skills/accessibility",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "a11y",
+        "accessibility",
+        "wcag",
+        "screen reader",
+        "keyboard navigation",
+        "aria",
+        "focus",
+        "contrast",
+        "alt text",
+        "skip link"
+      ],
+      "contextTokens": 900
+    },
+    "best-practices": {
+      "name": "best-practices",
+      "category": "quality",
+      "sourceRepo": "github.com/addyosmani/web-quality-skills",
+      "sourceUrl": "https://github.com/addyosmani/web-quality-skills/tree/main/skills/best-practices",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "best practices",
+        "security audit",
+        "modernize",
+        "code quality",
+        "vulnerability",
+        "CSP",
+        "HSTS",
+        "deprecated API"
+      ],
+      "contextTokens": 700
+    },
+    "baseline-ui": {
+      "name": "baseline-ui",
+      "category": "design",
+      "sourceRepo": "github.com/ibelick/ui-skills",
+      "sourceUrl": "https://github.com/ibelick/ui-skills/tree/main/skills/baseline-ui",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "ui polish",
+        "spacing",
+        "typography",
+        "layout",
+        "small layout fixes",
+        "design baseline",
+        "design improvement",
+        "visual polish",
+        "improve design"
+      ],
+      "contextTokens": 300
+    },
+    "core-web-vitals": {
+      "name": "core-web-vitals",
+      "category": "quality",
+      "sourceRepo": "github.com/addyosmani/web-quality-skills",
+      "sourceUrl": "https://github.com/addyosmani/web-quality-skills/tree/main/skills/core-web-vitals",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "core web vitals",
+        "LCP",
+        "INP",
+        "CLS",
+        "largest contentful paint",
+        "interaction to next paint",
+        "cumulative layout shift",
+        "page experience"
+      ],
+      "contextTokens": 650
+    },
+    "performance": {
+      "name": "performance",
+      "category": "quality",
+      "sourceRepo": "github.com/addyosmani/web-quality-skills",
+      "sourceUrl": "https://github.com/addyosmani/web-quality-skills/tree/main/skills/performance",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "performance",
+        "speed up",
+        "load time",
+        "slow loading",
+        "page speed",
+        "TTFB",
+        "bundle",
+        "image optimization",
+        "font optimization",
+        "lazy load"
+      ],
+      "contextTokens": 850
+    },
+    "seo": {
+      "name": "seo",
+      "category": "quality",
+      "sourceRepo": "github.com/addyosmani/web-quality-skills",
+      "sourceUrl": "https://github.com/addyosmani/web-quality-skills/tree/main/skills/seo",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "SEO",
+        "search engine",
+        "meta tags",
+        "structured data",
+        "sitemap",
+        "robots.txt",
+        "canonical",
+        "search visibility",
+        "llms.txt"
+      ],
+      "contextTokens": 550
+    },
+    "web-quality-audit": {
+      "name": "web-quality-audit",
+      "category": "quality",
+      "sourceRepo": "github.com/addyosmani/web-quality-skills",
+      "sourceUrl": "https://github.com/addyosmani/web-quality-skills/tree/main/skills/web-quality-audit",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "audit my site",
+        "review web quality",
+        "lighthouse audit",
+        "page quality",
+        "optimize website"
+      ],
+      "contextTokens": 500
+    },
+    "vercel-composition-patterns": {
+      "name": "vercel-composition-patterns",
+      "category": "react",
+      "sourceRepo": "github.com/vercel-labs/agent-skills",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills/tree/main/skills/composition-patterns",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "composition",
+        "compound components",
+        "boolean props",
+        "component API",
+        "react component library",
+        "forwardRef",
+        "use()"
+      ],
+      "contextTokens": 400
+    },
+    "vercel-react-view-transitions": {
+      "name": "vercel-react-view-transitions",
+      "category": "react",
+      "sourceRepo": "github.com/vercel-labs/agent-skills",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills/tree/main/skills/react-view-transitions",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "view transition",
+        "shared element",
+        "route change",
+        "page transition",
+        "startViewTransition",
+        "ViewTransition",
+        "morph",
+        "navigate",
+        "list reorder"
+      ],
+      "contextTokens": 750
+    },
+    "web-artifacts-builder": {
+      "name": "web-artifacts-builder",
+      "category": "tooling",
+      "sourceRepo": "github.com/anthropics/skills",
+      "sourceUrl": "https://github.com/anthropics/skills/tree/main/skills/web-artifacts-builder",
+      "license": "Custom terms in LICENSE.txt",
+      "install": "vendored",
+      "triggers": [
+        "claude artifact",
+        "single HTML",
+        "shadcn/ui",
+        "React artifact",
+        "bundle artifact",
+        "init-artifact",
+        "bundle-artifact"
+      ],
+      "contextTokens": 400
+    },
+    "frontend-design": {
+      "name": "frontend-design",
+      "category": "design",
+      "sourceRepo": "github.com/anthropics/skills",
+      "sourceUrl": "https://github.com/anthropics/skills/tree/main/skills/frontend-design",
+      "license": "Custom terms in LICENSE.txt",
+      "install": "vendored",
+      "triggers": [
+        "visual design",
+        "typography",
+        "palette",
+        "layout",
+        "distinctive",
+        "visual identity",
+        "aesthetic",
+        "design brief",
+        "landing page",
+        "saas",
+        "polished",
+        "design",
+        "redesign",
+        "improve design",
+        "design improvement",
+        "visual improvement",
+        "polish",
+        "improve existing design"
+      ],
+      "contextTokens": 600
+    },
+    "figma-to-code": {
+      "name": "figma-to-code",
+      "category": "design",
+      "sourceRepo": "node-cli",
+      "sourceUrl": null,
+      "license": "ISC",
+      "install": "vendored",
+      "triggers": [
+        "figma",
+        "design-to-code",
+        "figma url",
+        "figma design",
+        "figma frame",
+        "figma-to-code"
+      ],
+      "contextTokens": 2000
+    },
+    "mcp-builder": {
+      "name": "mcp-builder",
+      "category": "tooling",
+      "sourceRepo": "github.com/anthropics/skills",
+      "sourceUrl": "https://github.com/anthropics/skills/tree/main/skills/mcp-builder",
+      "license": "Custom terms in LICENSE.txt",
+      "install": "vendored",
+      "triggers": [
+        "MCP server",
+        "model context protocol",
+        "FastMCP",
+        "MCP SDK",
+        "tool definition",
+        "resource",
+        "prompt"
+      ],
+      "contextTokens": 700
+    },
+    "theme-factory": {
+      "name": "theme-factory",
+      "category": "design",
+      "sourceRepo": "github.com/anthropics/skills",
+      "sourceUrl": "https://github.com/anthropics/skills/tree/main/skills/theme-factory",
+      "license": "Custom terms in LICENSE.txt",
+      "install": "vendored",
+      "triggers": [
+        "theme",
+        "color palette",
+        "font pairing",
+        "slides",
+        "deck",
+        "styling artifact"
+      ],
+      "contextTokens": 350
+    },
+    "webapp-testing": {
+      "name": "webapp-testing",
+      "category": "testing",
+      "sourceRepo": "github.com/anthropics/skills",
+      "sourceUrl": "https://github.com/anthropics/skills/tree/main/skills/webapp-testing",
+      "license": "Custom terms in LICENSE.txt",
+      "install": "vendored",
+      "triggers": [
+        "Playwright",
+        "web app testing",
+        "browser automation",
+        "with_server.py",
+        "networkidle",
+        "reconnaissance-then-action"
+      ],
+      "contextTokens": 400
+    },
+    "postgres-best-practices": {
+      "name": "postgres-best-practices",
+      "category": "backend",
+      "sourceRepo": "github.com/supabase/agent-skills",
+      "sourceUrl": "https://github.com/supabase/agent-skills/tree/main/skills/supabase-postgres-best-practices",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "postgres",
+        "schema",
+        "index",
+        "RLS",
+        "row-level security",
+        "EXPLAIN",
+        "migration",
+        "query performance",
+        "connection pooling",
+        "pgvector"
+      ],
+      "contextTokens": 700
+    },
+    "deploy-to-vercel": {
+      "name": "deploy-to-vercel",
+      "category": "deploy",
+      "sourceRepo": "github.com/vercel-labs/agent-skills",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills/tree/main/skills/deploy-to-vercel",
+      "license": "Not found at root",
+      "install": "on-demand",
+      "note": "Root LICENSE file not found in repository; not vendored locally",
+      "triggers": [
+        "deploy",
+        "vercel deploy",
+        "push live",
+        "preview deployment",
+        "vercel link",
+        "vercel login"
+      ],
+      "contextTokens": 450
+    },
+    "verification-before-completion": {
+      "name": "verification-before-completion",
+      "category": "workflow",
+      "sourceRepo": "github.com/obra/superpowers",
+      "sourceUrl": "https://github.com/obra/superpowers/tree/main/skills/verification-before-completion",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "done",
+        "complete",
+        "fixed",
+        "passing",
+        "commit",
+        "PR",
+        "verify",
+        "evidence",
+        "root cause"
+      ],
+      "contextTokens": 300
+    },
+    "writing-plans": {
+      "name": "writing-plans",
+      "category": "workflow",
+      "sourceRepo": "github.com/obra/superpowers",
+      "sourceUrl": "https://github.com/obra/superpowers/tree/main/skills/writing-plans",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "implementation plan",
+        "spec",
+        "requirements",
+        "multi-step task",
+        "write plan",
+        "task decomposition"
+      ],
+      "contextTokens": 500
+    },
+    "test-driven-development": {
+      "name": "test-driven-development",
+      "category": "testing",
+      "sourceRepo": "github.com/obra/superpowers",
+      "sourceUrl": "https://github.com/obra/superpowers/tree/main/skills/test-driven-development",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "TDD",
+        "test first",
+        "red green refactor",
+        "failing test",
+        "bug fix",
+        "feature implementation"
+      ],
+      "contextTokens": 450
+    },
+    "systematic-debugging": {
+      "name": "systematic-debugging",
+      "category": "workflow",
+      "sourceRepo": "github.com/obra/superpowers",
+      "sourceUrl": "https://github.com/obra/superpowers/tree/main/skills/systematic-debugging",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "debug",
+        "bug",
+        "test failure",
+        "unexpected behavior",
+        "root cause",
+        "error",
+        "stack trace",
+        "not working"
+      ],
+      "contextTokens": 600
+    },
+    "impeccable": {
+      "name": "Impeccable",
+      "category": "quality",
+      "sourceRepo": "github.com/pbakaus/impeccable",
+      "sourceUrl": "https://github.com/pbakaus/impeccable",
+      "license": "Apache-2.0",
+      "install": "vendored",
+      "triggers": [
+        "impeccable",
+        "design review",
+        "critique",
+        "polish",
+        "audit",
+        "typography",
+        "layout",
+        "anti-pattern"
+      ],
+      "contextTokens": 700
+    },
+    "database": {
+      "name": "database",
+      "category": "backend",
+      "sourceRepo": null,
+      "sourceUrl": null,
+      "license": null,
+      "install": "on-demand",
+      "note": "Not vendored. No public source repository with a SKILL.md found for this skill name.",
+      "triggers": [
+        "database",
+        "SQL",
+        "schema",
+        "query",
+        "table",
+        "index",
+        "migration"
+      ],
+      "contextTokens": 300
+    },
+    "figma-implement-design": {
+      "name": "figma-implement-design",
+      "category": "design",
+      "sourceRepo": "github.com/openai/skills",
+      "sourceUrl": "https://github.com/openai/skills/tree/main/skills/.curated/figma-implement-design",
+      "license": "Custom terms in LICENSE.txt",
+      "install": "vendored",
+      "triggers": [
+        "figma",
+        "implement design",
+        "design to code",
+        "Figma to React"
+      ],
+      "contextTokens": 5544
+    },
+    "motion-polish": {
+      "name": "motion-polish",
+      "category": "design",
+      "sourceRepo": "github.com/whawkinsiv/solo-founder-skills",
+      "sourceUrl": null,
+      "license": null,
+      "install": "on-demand",
+      "note": "Folder skills/motion-polish/ not found in repository tree (commit 01bd10f79a4b6a741be78e3184612a90ecbd54ef)",
+      "triggers": [
+        "motion polish",
+        "animation polish",
+        "micro-interaction",
+        "hover animation",
+        "enter exit animation"
+      ],
+      "contextTokens": 300
+    },
+    "tailwindcss-development": {
+      "name": "tailwindcss-development",
+      "category": "design",
+      "sourceRepo": "github.com/laravel/boost",
+      "sourceUrl": "https://github.com/laravel/boost/tree/main/.ai/tailwindcss/4/skill/tailwindcss-development",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "tailwind",
+        "tailwindcss",
+        "utility classes",
+        "css utility",
+        "design system tokens"
+      ],
+      "contextTokens": 300
+    },
+    "ui-patterns": {
+      "name": "ui-patterns",
+      "category": "design",
+      "sourceRepo": "github.com/whawkinsiv/solo-founder-skills",
+      "sourceUrl": null,
+      "license": null,
+      "install": "on-demand",
+      "note": "Folder skills/ui-patterns/ not found in repository tree",
+      "triggers": [
+        "UI pattern",
+        "component pattern",
+        "layout pattern",
+        "design pattern",
+        "common UI"
+      ],
+      "contextTokens": 300
+    },
+    "ui-ux-pro-max": {
+      "name": "UI/UX Pro Max",
+      "category": "design",
+      "sourceRepo": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "sourceUrl": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "license": "MIT",
+      "install": "vendored",
+      "note": "Full searchable library integrated; data under .claude/skills/ui-ux-pro-max or provided data assets",
+      "triggers": [
+        "ui ux pro max",
+        "design system",
+        "color palette",
+        "typography",
+        "landing page",
+        "dashboard",
+        "industry design",
+        "ui style",
+        "responsive design"
+      ],
+      "contextTokens": 700,
+      "resourceKind": "design-intelligence",
+      "sourceCommit": "28b3b8dee8c976df4fa3e94aed4e092ad43fcb03",
+      "dependencies": [],
+      "supportedStacks": [
+        "html",
+        "react",
+        "nextjs",
+        "vue",
+        "svelte",
+        "tailwind"
+      ],
+      "verificationStatus": "cataloged",
+      "payloadPaths": [
+        ".claude/skills"
+      ]
+    },
+    "ui-skills": {
+      "name": "ui-skills",
+      "category": "design",
+      "sourceRepo": null,
+      "sourceUrl": null,
+      "license": null,
+      "install": "removed",
+      "note": "Removed from catalog; individual skills (baseline-ui, fixing-accessibility, fixing-metadata, fixing-motion-performance) vendored separately from same repo",
+      "triggers": [],
+      "contextTokens": 0
+    },
+    "no-ai-slop": {
+      "name": "no-ai-slop",
+      "category": "writing",
+      "sourceRepo": "github.com/petergyang/no-ai-slop",
+      "sourceUrl": "https://github.com/petergyang/no-ai-slop/tree/main/skills/no-ai-slop",
+      "license": "MIT",
+      "install": "vendored",
+      "note": "Prose-editing skill. Kept as optional writing category entry; not auto-enabled for UI work.",
+      "triggers": [
+        "no AI slop",
+        "anti-AI-slop",
+        "bland AI",
+        "generic AI look",
+        "AI look and feel"
+      ],
+      "contextTokens": 300
+    },
+    "beautify": {
+      "name": "beautify",
+      "category": "design",
+      "sourceRepo": "github.com/whawkinsiv/solo-founder-skills",
+      "sourceUrl": "https://github.com/whawkinsiv/solo-founder-skills/tree/main/skills/beautify",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "make it look better",
+        "it looks like a template",
+        "something looks off",
+        "make it look like Stripe or Linear",
+        "review my design",
+        "is the UI good enough to ship",
+        "pick a look for my app",
+        "visual design",
+        "ui polish",
+        "aesthetic"
+      ],
+      "contextTokens": 5300
+    },
+    "fixing-accessibility": {
+      "name": "fixing-accessibility",
+      "category": "design",
+      "sourceRepo": "github.com/ibelick/ui-skills",
+      "sourceUrl": "https://github.com/ibelick/ui-skills/tree/main/skills/fixing-accessibility",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "fixing-accessibility",
+        "accessibility audit",
+        "aria labels",
+        "keyboard navigation",
+        "focus management"
+      ],
+      "contextTokens": 4718
+    },
+    "fixing-metadata": {
+      "name": "fixing-metadata",
+      "category": "design",
+      "sourceRepo": "github.com/ibelick/ui-skills",
+      "sourceUrl": "https://github.com/ibelick/ui-skills/tree/main/skills/fixing-metadata",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "fixing-metadata",
+        "SEO metadata",
+        "meta tags",
+        "canonical URL",
+        "Open Graph"
+      ],
+      "contextTokens": 4439
+    },
+    "fixing-motion-performance": {
+      "name": "fixing-motion-performance",
+      "category": "design",
+      "sourceRepo": "github.com/ibelick/ui-skills",
+      "sourceUrl": "https://github.com/ibelick/ui-skills/tree/main/skills/fixing-motion-performance",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "fixing-motion-performance",
+        "animation performance",
+        "layout thrashing",
+        "scroll-linked motion"
+      ],
+      "contextTokens": 5565
+    },
+    "hallmark": {
+      "name": "hallmark",
+      "category": "design",
+      "sourceRepo": "github.com/Nutlope/hallmark",
+      "sourceUrl": "https://github.com/Nutlope/hallmark/tree/main/skills/hallmark",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "hallmark",
+        "design review",
+        "critique",
+        "polish UI",
+        "landing page",
+        "dashboard",
+        "component design",
+        "UX review",
+        "accessibility audit"
+      ],
+      "contextTokens": 17503
+    },
+    "react-best-practices": {
+      "name": "react-best-practices",
+      "category": "react",
+      "sourceRepo": "github.com/vercel-labs/agent-skills",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills/tree/main/skills/react-best-practices",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "vercel-react-best-practices",
+        "react performance",
+        "Next.js performance",
+        "bundle size",
+        "data fetching",
+        "rerender optimization"
+      ],
+      "contextTokens": 7251
+    },
+    "skill-creator": {
+      "name": "skill-creator",
+      "category": "tooling",
+      "sourceRepo": "github.com/anthropics/skills",
+      "sourceUrl": "https://github.com/anthropics/skills/tree/main/skills/skill-creator",
+      "license": "Custom terms in LICENSE.txt",
+      "install": "vendored",
+      "triggers": [
+        "skill-creator",
+        "create skill",
+        "modify skill",
+        "skill eval",
+        "skill performance"
+      ],
+      "contextTokens": 105146
+    },
+    "web-design-guidelines": {
+      "name": "web-design-guidelines",
+      "category": "design",
+      "sourceRepo": "github.com/vercel-labs/agent-skills",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills/tree/main/skills/web-design-guidelines",
+      "license": "MIT",
+      "install": "vendored",
+      "triggers": [
+        "web-design-guidelines",
+        "review my UI",
+        "check accessibility",
+        "audit design",
+        "review UX"
+      ],
+      "contextTokens": 3360
+    },
+    "interactive-3d": {
+      "name": "interactive-3d",
+      "category": "design",
+      "sourceRepo": "node-cli",
+      "sourceUrl": null,
+      "license": "ISC",
+      "install": "vendored",
+      "triggers": [
+        "3d",
+        "webgl",
+        "three.js",
+        "interactive 3d",
+        "3d scene",
+        "3d model"
+      ],
+      "contextTokens": 900
+    },
+    "react-performance": {
+      "name": "react-performance",
+      "category": "react",
+      "sourceRepo": "node-cli",
+      "sourceUrl": null,
+      "license": "ISC",
+      "install": "vendored",
+      "triggers": [
+        "react performance",
+        "unnecessary renders",
+        "useMemo",
+        "useCallback",
+        "memo",
+        "component composition",
+        "rerender",
+        "list keys",
+        "profiling"
+      ],
+      "contextTokens": 900
+    },
+    "seo-metadata": {
+      "name": "seo-metadata",
+      "category": "quality",
+      "sourceRepo": "node-cli",
+      "sourceUrl": null,
+      "license": "ISC",
+      "install": "vendored",
+      "triggers": [
+        "seo",
+        "metadata",
+        "meta description",
+        "canonical",
+        "robots",
+        "open graph",
+        "structured data",
+        "title tag",
+        "indexability"
+      ],
+      "contextTokens": 900
+    },
+    "awesome-design-md": {
+      "name": "Awesome Design MD",
+      "category": "design",
+      "sourceRepo": "VoltAgent/awesome-design-md",
+      "sourceUrl": "https://github.com/VoltAgent/awesome-design-md",
+      "license": "MIT",
+      "install": "on-demand",
+      "note": "Design system reference collection (note spelling in repo name)",
+      "triggers": [
+        "design.md",
+        "design system collection",
+        "design tokens",
+        "component guidelines"
+      ],
+      "contextTokens": 400,
+      "resourceKind": "design-system-reference",
+      "sourceCommit": "3b605329240ce735b510037cca322f1831fdd7f8",
+      "dependencies": [],
+      "supportedStacks": [
+        "any"
+      ],
+      "verificationStatus": "cataloged",
+      "payloadPaths": []
+    },
+    "open-design": {
+      "name": "OpenDesign",
+      "category": "design",
+      "sourceRepo": "nexu-io/open-design",
+      "sourceUrl": "https://github.com/nexu-io/open-design",
+      "license": "unknown",
+      "install": "on-demand",
+      "note": "Architectural reference; inspect individual portable assets",
+      "triggers": [
+        "open design",
+        "design workflow",
+        "design architecture"
+      ],
+      "contextTokens": 400,
+      "resourceKind": "workflow-reference",
+      "sourceCommit": "6bf7fa79120f9da261be43a71d7ec1a28c2b2ef9",
+      "dependencies": [],
+      "supportedStacks": [
+        "any"
+      ],
+      "verificationStatus": "cataloged",
+      "payloadPaths": []
+    },
+    "taste-skill": {
+      "name": "Taste Skill",
+      "category": "design",
+      "sourceRepo": "Leonxlnx/taste-skill",
+      "sourceUrl": "https://github.com/Leonxlnx/taste-skill",
+      "license": "unknown",
+      "install": "on-demand",
+      "note": "Art-direction / anti-generic design guidance",
+      "triggers": [
+        "taste",
+        "art direction",
+        "distinctive design",
+        "avoid generic",
+        "aesthetic direction"
+      ],
+      "contextTokens": 400,
+      "resourceKind": "design-intelligence",
+      "sourceCommit": "12af471f627f866411b4bd785b19646d3672784c",
+      "dependencies": [],
+      "supportedStacks": [
+        "any"
+      ],
+      "verificationStatus": "cataloged",
+      "payloadPaths": []
+    },
+    "pbakaus-impeccable": {
+      "name": "pbakaus-impeccable",
+      "category": "design",
+      "sourceRepo": "pbakaus/impeccable",
+      "sourceUrl": "https://github.com/pbakaus/impeccable",
+      "license": "Apache-2.0",
+      "install": "on-demand",
+      "note": "Reference integration alongside existing impeccable skill",
+      "triggers": [
+        "impeccable critique",
+        "design critique",
+        "polish checklist"
+      ],
+      "contextTokens": 400,
+      "resourceKind": "quality-review",
+      "sourceCommit": "3e3a9179e01a60265000ce239c0a99803ec1e60d",
+      "dependencies": [],
+      "supportedStacks": [
+        "any"
+      ],
+      "verificationStatus": "cataloged",
+      "payloadPaths": []
+    },
+    "react-bits": {
+      "name": "React Bits",
+      "category": "react",
+      "sourceRepo": "DavidHDev/react-bits",
+      "sourceUrl": "https://github.com/DavidHDev/react-bits",
+      "license": "MIT",
+      "install": "on-demand",
+      "note": "Component source index - copy components as needed, not full library import",
+      "triggers": [
+        "react bits",
+        "animated components",
+        "ui components",
+        "component snippets"
+      ],
+      "contextTokens": 400,
+      "resourceKind": "component-source",
+      "sourceCommit": "e12c22192ac7b4b452c5e2feb9b586d74765d696",
+      "dependencies": [
+        "react"
+      ],
+      "supportedStacks": [
+        "react",
+        "nextjs"
+      ],
+      "verificationStatus": "cataloged",
+      "payloadPaths": []
+    },
+    "emilkowalski-skills-repo": {
+      "name": "Emil Kowalski Skills Repo",
+      "category": "design",
+      "sourceRepo": "emilkowalski/skills",
+      "sourceUrl": "https://github.com/emilkowalski/skills",
+      "license": "MIT",
+      "install": "on-demand",
+      "note": "Design engineering guidance from Emil Kowalski (repo-level reference)",
+      "triggers": [
+        "emil kowalski",
+        "design engineering",
+        "interaction details"
+      ],
+      "contextTokens": 400,
+      "resourceKind": "design-intelligence",
+      "sourceCommit": "2d228630ba1446365f614a108cb8252f1feda202",
+      "dependencies": [],
+      "supportedStacks": [
+        "react",
+        "nextjs",
+        "vanilla"
+      ],
+      "verificationStatus": "cataloged",
+      "payloadPaths": []
+    },
+    "hallmark-ref": {
+      "name": "Hallmark (reference)",
+      "category": "design",
+      "sourceRepo": "Nutlope/hallmark",
+      "sourceUrl": "https://github.com/Nutlope/hallmark",
+      "license": "MIT",
+      "install": "on-demand",
+      "note": "Reference alongside vendored hallmark skill",
+      "triggers": [
+        "hallmark review",
+        "landing critique"
+      ],
+      "contextTokens": 400,
+      "resourceKind": "quality-review",
+      "sourceCommit": "6033bab2a8051b5454552d2e8e6cb8f27c483a42",
+      "dependencies": [],
+      "supportedStacks": [
+        "any"
+      ],
+      "verificationStatus": "cataloged",
+      "payloadPaths": []
+    },
+    "design-md-google": {
+      "name": "Google Labs DESIGN.md",
+      "category": "design",
+      "sourceRepo": "google-labs-code/design.md",
+      "sourceUrl": "https://github.com/google-labs-code/design.md",
+      "license": "Apache-2.0",
+      "install": "on-demand",
+      "note": "Portable project design-system workflow",
+      "triggers": [
+        "design.md",
+        "project design system",
+        "design tokens workflow"
+      ],
+      "contextTokens": 400,
+      "resourceKind": "design-token-spec",
+      "sourceCommit": "6e5da5382f41edbba9d73b2c62f33f32e9971f15",
+      "dependencies": [],
+      "supportedStacks": [
+        "any"
+      ],
+      "verificationStatus": "cataloged",
+      "payloadPaths": []
+    },
+    "magicui": {
+      "name": "Magic UI",
+      "category": "react",
+      "sourceRepo": "magicuidesign/magicui",
+      "sourceUrl": "https://github.com/magicuidesign/magicui",
+      "license": "MIT",
+      "install": "on-demand",
+      "note": "Component source index - add components selectively",
+      "triggers": [
+        "magic ui",
+        "ui components",
+        "tailwind components"
+      ],
+      "contextTokens": 400,
+      "resourceKind": "component-source",
+      "sourceCommit": "efe76fc5755eca1142dd4f74c1d6f0ace2887e3c",
+      "dependencies": [
+        "react",
+        "tailwindcss"
+      ],
+      "supportedStacks": [
+        "react",
+        "nextjs"
+      ],
+      "verificationStatus": "cataloged",
+      "payloadPaths": []
+    },
+    "gsap-skills": {
+      "name": "GSAP Skills",
+      "category": "design",
+      "sourceRepo": "greensock/gsap-skills",
+      "sourceUrl": "https://github.com/greensock/gsap-skills",
+      "license": "unknown",
+      "install": "on-demand",
+      "note": "Use for complex timeline/scroll animation or explicit GSAP request; opt-in",
+      "triggers": [
+        "gsap",
+        "gsap timeline",
+        "scrolltrigger",
+        "complex animation"
+      ],
+      "contextTokens": 400,
+      "resourceKind": "interaction",
+      "sourceCommit": "aed9cfd3277740755f6bfc1155c7aa645403b760",
+      "dependencies": [
+        "gsap"
+      ],
+      "supportedStacks": [
+        "any"
+      ],
+      "verificationStatus": "cataloged",
+      "payloadPaths": []
+    },
+    "scroll-world": {
+      "name": "Scroll World",
+      "category": "design",
+      "sourceRepo": "oso95/scroll-world",
+      "sourceUrl": "https://github.com/oso95/scroll-world",
+      "license": "unknown",
+      "install": "on-demand",
+      "note": "Opt-in immersive scroll-driven 3D experiences; external services/costs possible",
+      "triggers": [
+        "scroll world",
+        "immersive scroll",
+        "3d scroll"
+      ],
+      "contextTokens": 400,
+      "resourceKind": "workflow",
+      "sourceCommit": "71cc36d3bb150248ae36a2c552f9cbf88802a79c",
+      "dependencies": [],
+      "supportedStacks": [
+        "any"
+      ],
+      "verificationStatus": "cataloged",
+      "payloadPaths": []
+    },
+    "canvas-ui": {
+      "name": "Canvas UI",
+      "category": "design",
+      "sourceRepo": "DavidHDev/canvas-ui",
+      "sourceUrl": "https://github.com/DavidHDev/canvas-ui",
+      "license": "MIT",
+      "install": "on-demand",
+      "note": "WebGL/WebGPU effects optional, capability-dependent with fallbacks",
+      "triggers": [
+        "canvas ui",
+        "webgl ui",
+        "webgpu"
+      ],
+      "contextTokens": 400,
+      "resourceKind": "interaction",
+      "sourceCommit": "a04a99b235299ee79a123a16ccb2e6cf9da74b6b",
+      "dependencies": [],
+      "supportedStacks": [
+        "any"
+      ],
+      "verificationStatus": "cataloged",
+      "payloadPaths": []
+    },
+    "dimensional-drawing": {
+      "name": "Dimensional Drawing",
+      "category": "design",
+      "sourceRepo": "enesozturk/dimensional-drawing",
+      "sourceUrl": "https://github.com/enesozturk/dimensional-drawing",
+      "license": "unknown",
+      "install": "on-demand",
+      "note": "Screenshot/design reproduction, layout inspection - opt-in",
+      "triggers": [
+        "dimensional drawing",
+        "design to spec",
+        "screenshot reproduction"
+      ],
+      "contextTokens": 400,
+      "resourceKind": "workflow-reference",
+      "sourceCommit": "5c457437c8c83524308aad3b7443e81adcc13153",
+      "dependencies": [],
+      "supportedStacks": [
+        "any"
+      ],
+      "verificationStatus": "cataloged",
+      "payloadPaths": []
+    },
+    "fidelity-rules": {
+      "name": "fidelity-rules",
+      "category": "design",
+      "sourceRepo": "node-cli",
+      "sourceUrl": null,
+      "license": "ISC",
+      "install": "vendored",
+      "triggers": [
+        "fidelity",
+        "design-package",
+        "package-active"
+      ],
+      "contextTokens": 500
+    }
+  }
+}

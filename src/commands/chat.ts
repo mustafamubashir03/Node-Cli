@@ -1,215 +1,269 @@
 import { input } from "@inquirer/prompts";
-import type { SDKMessage } from "@anthropic-ai/claude-agent-sdk";
-import { fmt } from "../ui/format.js";
-import { handleMessage } from "../agent/message-handler.js";
-import {
-    CliModeToPermissionMode,
-    parseCliMode,
-    setCurrentMode,
-    type Climode,
-} from "../agent/modes.js";
-import { SLASH_COMMANDS } from "../config/constants.js";
-import { startSpinner, stopSpinner } from "../ui/spinner.js";
-import { createSession, recreateSession, needsRecreation, type AgentSession } from "../agent/create-session.js";
+import { toolSurface, type Mode } from "../agent/modes.js";
+import { closeSession, createSession, type AgentSession } from "../agent/session.js";
+import { runTurn } from "../agent/turn.js";
+import { runSlashCommand } from "./slash-commands.js";
+import { promptForCredentials } from "../config/setup.js";
+import { requireCredentials } from "../config/env.js";
+import { readAppConfig } from "../config/app-config.js";
+import { availableEnabledSkills } from "../skills/registry.js";
+import { describeRouting, formatSkillShortlist } from "../skills/router.js";
+import { selectSkills, toRouterResult } from "../skills/selection.js";
+import { printGoodbye, printHint, printNotice, printSessionHeader, printSuccess, printFailure } from "../ui/messages.js";
+import { stopSpinner } from "../ui/spinner.js";
+import { style } from "../ui/styles.js";
+import { skillStatusLine } from "./skills.js";
+import { WorkflowRunner } from "../workflow/workflow-runner.js";
+import { findUnfinishedSessions } from "../workflow/task-context.js";
+
 
 export type ChatOptions = {
-    mode?: Climode;
+    mode?: Mode;
     verbose?: boolean;
-}
+};
 
-function printModeHeader(session: AgentSession): void {
-    console.log(fmt.mode(`Chatting with Node Cli in ${session.mode} mode`));
-}
+export async function startChat(options: ChatOptions = {}): Promise<void> {
+    await promptForCredentials();
+    requireCredentials();
 
-function printSlashHelp(): void {
-    console.log(fmt.label("Available slash commands"));
-    for (const { command, description } of SLASH_COMMANDS) {
-        console.log(fmt.dim(`${command.padEnd(22)} | ${description}`));
+    const { mode = "agent", verbose = false } = options;
+    const configuredSkills = readAppConfig().skills ?? [];
+    const enabledSkills = availableEnabledSkills(configuredSkills);
+    const unavailable = configuredSkills.filter((id) => !enabledSkills.includes(id));
+    const session = createSession(mode, enabledSkills);
+
+    const runner = new WorkflowRunner({
+        sessionId: session.sessionId ?? "default",
+        mode: session.mode,
+        verbose,
+        enabledSkills: session.sessionSkills,
+    });
+
+    printSessionHeader(session.mode, toolSurface(session.mode));
+    printNotice(skillStatusLine());
+    if (unavailable.length > 0) {
+        printHint(
+            `Ignoring unavailable skills: ${unavailable.join(", ")}. Run /skills to review what this build can use.`,
+        );
     }
-    console.log();
-}
+    printHint("Type /help to see the available commands.");
 
-export async function drainUntilResult(
-    stream: AsyncIterator<SDKMessage>,
-    onMessage: (message: SDKMessage) => void
-): Promise<void> {
-    for (; ;) {
-        const { value, done } = await stream.next();
-        if (done) return;
-        onMessage(value);
-        if (value.type === "result") return;
-    }
-}
-
-async function handleSlashCommand(
-    line: string,
-    session: AgentSession,
-    verbose: boolean
-): Promise<{ handled: boolean; newMode?: Climode }> {
-    const trimmed = line.trim();
-    const lower = trimmed.toLowerCase();
-
-    if (lower === "/help") {
-        printSlashHelp();
-        return { handled: true };
-    }
-
-    if (lower === "/context") {
-        try {
-            const usage = await session.query.getContextUsage();
-            const total = (usage as any)?.total_tokens ?? (usage as any)?.totalTokens;
-            const window = (usage as any)?.context_window_size ?? (usage as any)?.contextWindowSize;
-            if (total !== undefined) {
-                console.log(fmt.info(`Context usage: ${total}${window ? ` / ${window}` : ""} tokens`));
-            } else {
-                console.log(fmt.info(`Context usage: ${JSON.stringify(usage)}`));
-            }
-        } catch {
-            console.log(fmt.error("Context usage not available for this session"));
+    // Check for unfinished sessions and offer resumption
+    const unfinished = findUnfinishedSessions();
+    if (unfinished.length > 0) {
+        printNotice(`Found ${unfinished.length} unfinished session(s). Type 'resume <session-id>' to continue, or proceed with a new task.`);
+        for (const ctx of unfinished) {
+            printHint(`  ${ctx.taskId}: ${ctx.originalTask.slice(0, 60)} (phase: ${ctx.phase}, approved: ${ctx.approvalStatus === "approved"})`);
         }
-        return { handled: true };
     }
 
-    if (lower.startsWith("/mode ")) {
-        const parts = trimmed.split(/\s+/);
-        const modeArg = parts[1];
-        if (!modeArg) {
-            console.log(fmt.error("Usage: /mode <agent|ask|plan>"));
-            return { handled: true };
-        }
-        const newMode = parseCliMode(modeArg);
-        if (!newMode) {
-            console.log(fmt.error(`Unknown mode: ${modeArg}. Use agent, ask, or plan.`));
-            return { handled: true };
-        }
-        if (needsRecreation(session, newMode)) {
-            const hadHistory = Boolean(session.sessionId);
-            console.log(
-                fmt.info(`${newMode} mode needs tools this session was not started with - restarting the session...`),
-            );
-            try {
-                await recreateSession(session, newMode);
-            } catch (error) {
-                console.error(
-                    fmt.error(
-                        `Could not restart the session for ${newMode} mode: ${error}. The previous session was closed.`,
-                    ),
-                );
-                return { handled: true };
-            }
-            setCurrentMode(newMode);
-            printModeHeader(session);
-            const history = hadHistory
-                ? "Conversation history resumed"
-                : "New conversation (no prior session id to resume)";
-            console.log(fmt.dim(`${history}. Tools: ${session.initialTools.join(", ")}`));
-            return { handled: true, newMode };
-        }
-
-        await session.query.setPermissionMode(CliModeToPermissionMode(newMode));
-        session.mode = newMode;
-        setCurrentMode(newMode);
-        printModeHeader(session);
-        console.log(fmt.dim(`Tools: ${session.mode === "agent" ? "Read, Grep, Glob, Edit, Write, Bash" : "Read, Grep, Glob, WebSearch, WebFetch (read-only)"}`));
-        if (verbose) {
-            console.log(fmt.dim(`Permission mode now: ${CliModeToPermissionMode(newMode)}`));
-        }
-        return { handled: true, newMode };
-    }
-
-    if (lower.startsWith("/")) {
-        console.log(fmt.warn(`Unknown slash command: ${trimmed}. Type /help for available commands.`));
-        return { handled: true };
-    }
-
-    return { handled: false };
-}
-
-export async function startChat(options: ChatOptions): Promise<void> {
-    const { mode: initialMode = "agent", verbose = false } = options;
-    const session = createSession(initialMode);
-    printModeHeader(session);
-    console.log(fmt.dim("Enter /help to see available commands"));
-    printSlashHelp();
-
-    let running = true;
-    let isShuttingDown = false;
-
-    const shutdown = async () => {
-        if (isShuttingDown) return;
-        isShuttingDown = true;
-        running = false;
-        stopSpinner();
-        session.inputQueue.close();
-        try {
-            await session.query.interrupt();
-        } catch { }
-        try {
-            await session.query.return();
-        } catch { }
-        console.log(fmt.dim("Goodbye!"));
-        setTimeout(() => process.exit(0), 1500).unref();
-        process.exit(0);
+    const onInterrupt = () => {
+        void sayGoodbye(session);
     };
-
-    const sigintHandler = () => {
-        shutdown();
-    };
-
-    process.on("SIGINT", sigintHandler);
+    process.on("SIGINT", onInterrupt);
 
     try {
-        while (running) {
-            let line: string;
-            try {
-                line = await input({ message: fmt.label("You:") });
-            } catch {
-                await shutdown();
+        while (true) {
+            const line = await askForInput();
+            if (line === null) {
                 break;
             }
 
-            const trimmed = line.trim();
-            if (!trimmed) {
+            const text = line.trim();
+            if (text === "") {
                 continue;
             }
 
-            const lower = trimmed.toLowerCase();
-            if (lower === "/exit") {
-                await shutdown();
+            const outcome = await runSlashCommand(text, session, { verbose });
+            if (outcome === "quit") {
                 break;
             }
-
-            if (lower === "/clear") {
-                console.clear();
-                console.log(fmt.dim("Console cleared."));
+            if (outcome === "handled") {
                 continue;
             }
 
-            const slash = await handleSlashCommand(trimmed, session, verbose);
-            if (slash.handled) {
-                if (slash.newMode) {
-                    session.mode = slash.newMode;
-                    setCurrentMode(slash.newMode);
+            // Handle resume command
+            if (text.toLowerCase().startsWith("resume ")) {
+                const sessionId = text.slice(7).trim();
+                const result = await runner.resumeSession(sessionId);
+                printNotice(result.message);
+                if (result.success) {
+                    printHint("Session resumed. Continue with your task.");
                 }
                 continue;
             }
 
-            startSpinner("Agent working...");
-            session.inputQueue.push(trimmed);
-            try {
-                await drainUntilResult(session.stream, (message) => {
-                    if (message.type === "system" && message.subtype === "init") {
-                        session.sessionId = message.session_id;
+            // Handle milestone command
+            if (text.toLowerCase().startsWith("milestone ")) {
+                const parts = text.slice(10).trim().split(/\s+/);
+                const action = parts[0]?.toLowerCase();
+                const milestoneId = parts[1];
+
+                if (action === "list") {
+                    printNotice(runner.getMilestoneSummary());
+                    const next = runner.getNextReadyMilestone();
+                    if (next) {
+                        printHint(`Next ready: ${next.id} - ${next.objective}`);
                     }
-                    handleMessage(message, { verbose });
-                });
-            } catch (error) {
-                console.error(fmt.error(`Session error: ${error}`));
-            } finally {
-                stopSpinner();
+                    continue;
+                }
+
+                if (action === "start" && milestoneId) {
+                    const result = await runner.startMilestoneWithCheckpoint(milestoneId);
+                    if (result.success) {
+                        printSuccess(`Milestone ${milestoneId} started.`);
+                    } else {
+                        printFailure(result.reason ?? "Cannot start milestone");
+                    }
+                    continue;
+                }
+
+                if (action === "complete" && milestoneId) {
+                    const result = await runner.completeMilestoneWithVerification(milestoneId);
+                    if (result.success) {
+                        printSuccess(`Milestone ${milestoneId} completed and verified.`);
+                    } else {
+                        printFailure(result.reason ?? "Cannot complete milestone");
+                    }
+                    continue;
+                }
+
+                if (action === "fail" && milestoneId) {
+                    const error = parts.slice(2).join(" ") || "Unknown error";
+                    await runner.failMilestone(milestoneId, error);
+                    printNotice(`Milestone ${milestoneId} marked as failed.`);
+                    continue;
+                }
+
+                if (action === "retry" && milestoneId) {
+                    const result = await runner.retryMilestone(milestoneId);
+                    if (result.success) {
+                        printSuccess(`Milestone ${milestoneId} retried and started.`);
+                    } else {
+                        printFailure(result.reason ?? "Cannot retry milestone");
+                    }
+                    continue;
+                }
+
+                if (action === "verify" && milestoneId) {
+                    const result = await runner.verifyMilestone(milestoneId);
+                    printNotice(`Verification: ${result.passed ? "PASSED" : "FAILED"} (${result.checks.length} checks)`);
+                    for (const check of result.checks) {
+                        if (check.status !== "passed") {
+                            printHint(`  ${check.name}: ${check.status}`);
+                        }
+                    }
+                    continue;
+                }
+
+                printHint("Usage: milestone <list|start|complete|fail|retry|verify> [milestone-id] [error]");
+                continue;
+            }
+
+            // Run the adaptive workflow: discovery, clarification, planning,
+            // approval, then implementation. Returns "proceed" when the normal
+            // agent turn should run.
+            const workflowResult = await runner.processUserMessage(text);
+
+            switch (workflowResult.action) {
+                case "ask_workflow": {
+                    printNotice(workflowResult.message ?? "");
+                    continue;
+                }
+                case "ask_clarification": {
+                    printNotice(workflowResult.message ?? "");
+                    continue;
+                }
+                case "plan_created": {
+                    printNotice(workflowResult.message ?? "");
+                    if (workflowResult.manifest) {
+                        printNotice(`[SKILL MANIFEST] ${manifestSummary(workflowResult.manifest)}`);
+                    }
+                    printHint("Reply 'approve' to authorize writes, or 'revise' to change the plan.");
+                    continue;
+                }
+                case "plan_approved": {
+                    printNotice(workflowResult.message ?? "Plan approved.");
+                    break;
+                }
+                case "plan_revised": {
+                    printNotice(workflowResult.message ?? "Plan revised.");
+                    continue;
+                }
+                case "proceed":
+                    break;
+            }
+
+            // The selector uses the session's enabled list, which /skills refreshes
+            // by recreating the query. Selection therefore cannot suggest a skill
+            // that the session's UseSkill server would reject.
+            const selection = selectSkills(text, {
+                mode: session.mode,
+                enabledSkills: session.sessionSkills,
+            });
+            if (selection.selected.length > 0) {
+                printNotice(`[ROUTER] Selected ${selection.selected.length} skill(s): ${selection.selected.join(", ")} (budget ${selection.budget.used}/${selection.budget.limit} tokens).`);
+            } else {
+                printNotice("[ROUTER] No skills selected for this request.");
+            }
+            if (verbose) {
+                printHint(describeRouting(toRouterResult(selection)));
+            }
+
+            // If a skill manifest is approved, inject selected skill bodies into context
+            const approvedSkillContext = runner.buildSkillContextForTurn();
+            const skillContext = approvedSkillContext
+                ? approvedSkillContext
+                : (formatSkillShortlist(toRouterResult(selection)) ?? undefined);
+
+            await runTurn(session, text, {
+                verbose,
+                skillContext,
+                skillSelection: selection,
+            });
+
+            // Sync milestones from plan after turn completes
+            await runner.syncMilestonesFromPlan();
+
+            // Run verification after implementation turns (only when files were written)
+            if (runner.getContext()?.phase === "implementation") {
+                const { runVerification } = await import("../workflow/verification.js");
+                const result = runVerification();
+                // Only report if there are actual failures or the project has a package.json
+                const hasFailures = result.checks.some((c) => c.status === "failed");
+                if (hasFailures || result.checks.length > 3) {
+                    printNotice(`[VERIFY] Overall: ${result.overall} (${result.checks.length} checks)`);
+                    for (const check of result.checks) {
+                        if (check.status !== "passed") {
+                            printHint(`  ${check.name}: ${check.status}${check.detail ? " - " + check.detail : ""}`);
+                        }
+                    }
+                }
             }
         }
     } finally {
-        process.removeListener("SIGINT", sigintHandler);
+        process.removeListener("SIGINT", onInterrupt);
+        await sayGoodbye(session);
     }
+}
+
+function manifestSummary(manifest: { selected: string[]; rejected: number | string[]; unavailable: number | string[]; budget: { used: number; limit: number } }): string {
+    const rejectedCount = Array.isArray(manifest.rejected) ? manifest.rejected.length : manifest.rejected;
+    const unavailableCount = Array.isArray(manifest.unavailable) ? manifest.unavailable.length : manifest.unavailable;
+    return `selected=${manifest.selected.join(", ") || "none"}, rejected=${rejectedCount}, unavailable=${unavailableCount}, budget=${manifest.budget.used}/${manifest.budget.limit}`;
+}
+
+async function askForInput(): Promise<string | null> {
+    try {
+        return await input({ message: style.bold("You:") });
+    } catch {
+        return null;
+    }
+}
+
+async function sayGoodbye(session: AgentSession): Promise<void> {
+    stopSpinner();
+    printGoodbye();
+    await closeSession(session);
+    process.exit(0);
 }
