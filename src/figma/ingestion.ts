@@ -145,8 +145,15 @@ export function discoverAssets(
 
     const seen = new Set<string>();
 
+    const rootNodeId = treeNodes.length > 0 ? treeNodes[0].node.id : undefined;
+    const rootBBoxNorm = normalizeBBox(rootBBox);
+
     for (const { node, depth, sectionIndex } of treeNodes) {
         if (!node.id || seen.has(node.id)) continue;
+        // Root guard: fails closed
+        if (isRootNode(node.id, rootNodeId || "")) continue;
+        if (!hasValidBbox(node.absoluteBoundingBox)) continue;
+        if (rootBBoxNorm && isRootBbox(node.absoluteBoundingBox, rootBBox)) continue;
         seen.add(node.id);
 
         if (node.fills) {
@@ -198,6 +205,32 @@ export function discoverAssets(
 
         if ((node as any).exportSettings) {
             exportableNodes.push(node.id);
+        }
+
+        // Icon-like small frames/instances (<128px, only vector children)
+        if ((node.type === "FRAME" || node.type === "INSTANCE" || node.type === "COMPONENT") && node.absoluteBoundingBox) {
+            const w = node.absoluteBoundingBox.width;
+            const h = node.absoluteBoundingBox.height;
+            if (w > 0 && w < 128 && h > 0 && h < 128) {
+                const children = node.children || [];
+                if (children.length > 0 && children.every((ch: any) => ch.type === "VECTOR" || ch.type === "BOOLEAN_OPERATION" || ch.type === "STAR" || ch.type === "LINE" || ch.type === "ELLIPSE")) {
+                    vectorNodes.push(node.id);
+                    assets.push({
+                        nodeId: node.id,
+                        name: node.name || `unnamed-${node.id}`,
+                        type: "icon",
+                        role: "icon",
+                        section: sectionIndex,
+                        bbox: (node.absoluteBoundingBox ? { x: (node.absoluteBoundingBox as any).x, y: (node.absoluteBoundingBox as any).y, w: (node.absoluteBoundingBox as any).width ?? (node.absoluteBoundingBox as any).w, h: (node.absoluteBoundingBox as any).height ?? (node.absoluteBoundingBox as any).h } : { x: 0, y: 0, w: 0, h: 0 }) as any,
+                        format: "svg",
+                        scale: 1,
+                        localPath: undefined,
+                        sourceUrl: undefined,
+                        status: "pending",
+                        usedBy: [],
+                    });
+                }
+            }
         }
     }
 
