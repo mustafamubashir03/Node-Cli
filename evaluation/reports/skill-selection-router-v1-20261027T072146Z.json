@@ -1,0 +1,2482 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-27T07:21:46.700Z",
+  "dataset": {
+    "path": "evaluation\\skill-selection.v1.json",
+    "version": 1,
+    "selectionVersion": "router-v1",
+    "sha256": "b1f7e30f65510fb30dea00001d88291d5147b3965a57dd9b1d0336d6146010ad",
+    "description": "Golden prompts for deterministic skill-selection evaluation. Labels are authored from task semantics against the verified skill catalog; they were not tuned to selector output."
+  },
+  "catalog": {
+    "availableSkills": [
+      "accessibility",
+      "apple-design",
+      "baseline-ui",
+      "best-practices",
+      "core-web-vitals",
+      "emil-design-eng",
+      "frontend-design",
+      "impeccable",
+      "improve-animations",
+      "interactive-3d",
+      "mcp-builder",
+      "no-ai-slop",
+      "pick-ui-library",
+      "postgres-best-practices",
+      "react-performance",
+      "review-animations",
+      "seo-metadata",
+      "systematic-debugging",
+      "tailwindcss-development",
+      "test-driven-development",
+      "theme-factory",
+      "verification-before-completion",
+      "web-artifacts-builder",
+      "webapp-testing",
+      "writing-plans"
+    ],
+    "hitAtK": 3
+  },
+  "summary": {
+    "total": 28,
+    "positiveCases": 27,
+    "passed": 26,
+    "failed": 2,
+    "passRate": 0.9285714285714286,
+    "hitAt1": 27,
+    "hitAt1Rate": 1,
+    "hitAtK": 27,
+    "hitAtKRate": 1,
+    "forbiddenViolations": 2,
+    "forbiddenCaseIds": [
+      "mcp-server",
+      "best-practices-audit"
+    ],
+    "emptySelections": 1,
+    "budgetOverruns": 3,
+    "averageSelectedCount": 1.5,
+    "averageRequiredPrecision": 0.7962962962962964,
+    "averageSelectedTokens": 1610.2857142857142
+  },
+  "byMode": {
+    "agent": {
+      "total": 27,
+      "positiveCases": 26,
+      "passed": 25,
+      "passRate": 0.9259259259259259,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 2
+    },
+    "ask": {
+      "total": 1,
+      "positiveCases": 1,
+      "passed": 1,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    }
+  },
+  "byTag": {
+    "3d": {
+      "total": 1,
+      "positiveCases": 1,
+      "passed": 1,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    },
+    "a11y": {
+      "total": 1,
+      "positiveCases": 1,
+      "passed": 1,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    },
+    "artifacts": {
+      "total": 1,
+      "positiveCases": 1,
+      "passed": 1,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    },
+    "backend": {
+      "total": 3,
+      "positiveCases": 3,
+      "passed": 3,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    },
+    "config": {
+      "total": 1,
+      "positiveCases": 1,
+      "passed": 1,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    },
+    "database": {
+      "total": 1,
+      "positiveCases": 1,
+      "passed": 1,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    },
+    "debugging": {
+      "total": 1,
+      "positiveCases": 1,
+      "passed": 1,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    },
+    "design": {
+      "total": 8,
+      "positiveCases": 8,
+      "passed": 8,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    },
+    "frontend": {
+      "total": 3,
+      "positiveCases": 3,
+      "passed": 3,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    },
+    "mcp": {
+      "total": 1,
+      "positiveCases": 1,
+      "passed": 0,
+      "passRate": 0,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 1
+    },
+    "mode": {
+      "total": 1,
+      "positiveCases": 1,
+      "passed": 1,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    },
+    "motion": {
+      "total": 2,
+      "positiveCases": 2,
+      "passed": 2,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    },
+    "negative": {
+      "total": 1,
+      "positiveCases": 0,
+      "passed": 1,
+      "passRate": 1,
+      "hitAt1Rate": 0,
+      "hitAtKRate": 0,
+      "forbiddenViolations": 0
+    },
+    "performance": {
+      "total": 2,
+      "positiveCases": 2,
+      "passed": 2,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    },
+    "quality": {
+      "total": 6,
+      "positiveCases": 6,
+      "passed": 5,
+      "passRate": 0.8333333333333334,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 1
+    },
+    "react": {
+      "total": 2,
+      "positiveCases": 2,
+      "passed": 2,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    },
+    "regression": {
+      "total": 1,
+      "positiveCases": 1,
+      "passed": 1,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    },
+    "review": {
+      "total": 1,
+      "positiveCases": 1,
+      "passed": 1,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    },
+    "security": {
+      "total": 1,
+      "positiveCases": 1,
+      "passed": 0,
+      "passRate": 0,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 1
+    },
+    "seo": {
+      "total": 1,
+      "positiveCases": 1,
+      "passed": 1,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    },
+    "styling": {
+      "total": 1,
+      "positiveCases": 1,
+      "passed": 1,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    },
+    "testing": {
+      "total": 2,
+      "positiveCases": 2,
+      "passed": 2,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    },
+    "theming": {
+      "total": 1,
+      "positiveCases": 1,
+      "passed": 1,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    },
+    "tooling": {
+      "total": 5,
+      "positiveCases": 5,
+      "passed": 4,
+      "passRate": 0.8,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 1
+    },
+    "verification": {
+      "total": 1,
+      "positiveCases": 1,
+      "passed": 1,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    },
+    "workflow": {
+      "total": 3,
+      "positiveCases": 3,
+      "passed": 3,
+      "passRate": 1,
+      "hitAt1Rate": 1,
+      "hitAtKRate": 1,
+      "forbiddenViolations": 0
+    }
+  },
+  "cases": [
+    {
+      "id": "landing-page-design",
+      "prompt": "Build a polished, distinctive landing page for a SaaS product with strong typography and a restrained palette.",
+      "mode": "agent",
+      "tags": [
+        "design",
+        "frontend"
+      ],
+      "expectedAny": [
+        "frontend-design"
+      ],
+      "forbidden": [
+        "postgres-best-practices",
+        "mcp-builder",
+        "webapp-testing"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "frontend-design"
+      ],
+      "recommended": [
+        "frontend-design"
+      ],
+      "scores": [
+        {
+          "id": "frontend-design",
+          "score": 18,
+          "reason": "triggers: typography, palette, distinctive, landing page, saas, polished"
+        },
+        {
+          "id": "baseline-ui",
+          "score": 6,
+          "reason": "triggers: typography"
+        },
+        {
+          "id": "apple-design",
+          "score": 2,
+          "reason": "triggers: typography"
+        }
+      ],
+      "budget": {
+        "used": 600,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "frontend-design"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 600,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "design-polish-existing",
+      "prompt": "Improve the existing design to the next level; fix spacing, hierarchy, and the overall layout.",
+      "mode": "agent",
+      "tags": [
+        "design",
+        "frontend"
+      ],
+      "expectedAny": [
+        "frontend-design",
+        "baseline-ui"
+      ],
+      "forbidden": [
+        "postgres-best-practices",
+        "mcp-builder"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "baseline-ui"
+      ],
+      "recommended": [
+        "baseline-ui"
+      ],
+      "scores": [
+        {
+          "id": "baseline-ui",
+          "score": 10,
+          "reason": "triggers: spacing, layout, hierarchy"
+        },
+        {
+          "id": "frontend-design",
+          "score": 8,
+          "reason": "triggers: layout, design"
+        },
+        {
+          "id": "emil-design-eng",
+          "score": 2,
+          "reason": "triggers: design"
+        }
+      ],
+      "budget": {
+        "used": 3419,
+        "limit": 3000,
+        "over": true
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "baseline-ui"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 3419,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "accessibility-audit",
+      "prompt": "Fix accessibility issues: keyboard navigation, focus states, and ARIA labels.",
+      "mode": "agent",
+      "tags": [
+        "quality",
+        "a11y"
+      ],
+      "expectedAny": [
+        "accessibility"
+      ],
+      "forbidden": [
+        "postgres-best-practices",
+        "mcp-builder",
+        "interactive-3d"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "accessibility"
+      ],
+      "recommended": [
+        "accessibility"
+      ],
+      "scores": [
+        {
+          "id": "accessibility",
+          "score": 16,
+          "reason": "triggers: accessibility, keyboard navigation, aria, focus"
+        }
+      ],
+      "budget": {
+        "used": 900,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "accessibility"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 900,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "animation-spring",
+      "prompt": "Add a spring animation to the modal dialog with interruptible drag gestures.",
+      "mode": "agent",
+      "tags": [
+        "design",
+        "motion"
+      ],
+      "expectedAny": [
+        "emil-design-eng",
+        "apple-design"
+      ],
+      "forbidden": [
+        "postgres-best-practices",
+        "mcp-builder"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "emil-design-eng",
+        "apple-design",
+        "improve-animations"
+      ],
+      "recommended": [
+        "emil-design-eng",
+        "apple-design",
+        "improve-animations"
+      ],
+      "scores": [
+        {
+          "id": "emil-design-eng",
+          "score": 12,
+          "reason": "triggers: animation, spring, gesture, drag"
+        },
+        {
+          "id": "apple-design",
+          "score": 8,
+          "reason": "triggers: spring animation, drag, interruptible"
+        },
+        {
+          "id": "improve-animations",
+          "score": 4,
+          "reason": "matched"
+        },
+        {
+          "id": "review-animations",
+          "score": 4,
+          "reason": "matched"
+        }
+      ],
+      "budget": {
+        "used": 2600,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "emil-design-eng",
+        "apple-design"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 2600,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "react-rerenders",
+      "prompt": "Optimize unnecessary rerenders in a React list and memoize expensive children.",
+      "mode": "agent",
+      "tags": [
+        "react",
+        "performance"
+      ],
+      "expectedAny": [
+        "react-performance"
+      ],
+      "forbidden": [
+        "postgres-best-practices",
+        "mcp-builder"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "react-performance"
+      ],
+      "recommended": [
+        "react-performance"
+      ],
+      "scores": [
+        {
+          "id": "react-performance",
+          "score": 2,
+          "reason": "triggers: rerender"
+        }
+      ],
+      "budget": {
+        "used": 900,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "react-performance"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 900,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "seo-metadata",
+      "prompt": "Add canonical URLs, Open Graph tags, and a meta description for SEO.",
+      "mode": "agent",
+      "tags": [
+        "quality",
+        "seo"
+      ],
+      "expectedAny": [
+        "seo-metadata"
+      ],
+      "forbidden": [
+        "postgres-best-practices",
+        "mcp-builder"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "seo-metadata"
+      ],
+      "recommended": [
+        "seo-metadata"
+      ],
+      "scores": [
+        {
+          "id": "seo-metadata",
+          "score": 12,
+          "reason": "triggers: seo, meta description, canonical, open graph"
+        }
+      ],
+      "budget": {
+        "used": 900,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "seo-metadata"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 900,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "postgres-index",
+      "prompt": "Add a Postgres index and migration for a slow query; explain the plan.",
+      "mode": "agent",
+      "tags": [
+        "backend",
+        "database"
+      ],
+      "expectedAny": [
+        "postgres-best-practices"
+      ],
+      "forbidden": [
+        "mcp-builder",
+        "frontend-design"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "postgres-best-practices"
+      ],
+      "recommended": [
+        "postgres-best-practices"
+      ],
+      "scores": [
+        {
+          "id": "postgres-best-practices",
+          "score": 12,
+          "reason": "triggers: postgres, index, EXPLAIN, migration"
+        }
+      ],
+      "budget": {
+        "used": 700,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "postgres-best-practices"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 700,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "mcp-server",
+      "prompt": "Build an MCP server with FastMCP that exposes a resource and a tool definition.",
+      "mode": "agent",
+      "tags": [
+        "tooling",
+        "mcp"
+      ],
+      "expectedAny": [
+        "mcp-builder"
+      ],
+      "forbidden": [
+        "postgres-best-practices",
+        "frontend-design"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "mcp-builder",
+        "postgres-best-practices"
+      ],
+      "recommended": [
+        "mcp-builder",
+        "postgres-best-practices"
+      ],
+      "scores": [
+        {
+          "id": "mcp-builder",
+          "score": 16,
+          "reason": "triggers: MCP server, FastMCP, tool definition, resource"
+        },
+        {
+          "id": "postgres-best-practices",
+          "score": 4,
+          "reason": "matched"
+        }
+      ],
+      "budget": {
+        "used": 1400,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "mcp-builder"
+      ],
+      "forbiddenSelected": [
+        "postgres-best-practices"
+      ],
+      "emptySelection": false,
+      "selectedTokens": 1400,
+      "passed": false,
+      "failureReason": "Selected forbidden skill(s): postgres-best-practices."
+    },
+    {
+      "id": "debug-crash",
+      "prompt": "Debug why the login flow crashes on submit; find the root cause from the stack trace.",
+      "mode": "agent",
+      "tags": [
+        "debugging"
+      ],
+      "expectedAny": [
+        "systematic-debugging"
+      ],
+      "forbidden": [
+        "frontend-design",
+        "mcp-builder"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "systematic-debugging",
+        "test-driven-development",
+        "verification-before-completion"
+      ],
+      "recommended": [
+        "systematic-debugging",
+        "test-driven-development",
+        "verification-before-completion"
+      ],
+      "scores": [
+        {
+          "id": "systematic-debugging",
+          "score": 14,
+          "reason": "triggers: debug, root cause, stack trace"
+        },
+        {
+          "id": "test-driven-development",
+          "score": 4,
+          "reason": "matched"
+        },
+        {
+          "id": "verification-before-completion",
+          "score": 4,
+          "reason": "triggers: root cause"
+        }
+      ],
+      "budget": {
+        "used": 1350,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "systematic-debugging"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 1350,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "tdd-feature",
+      "prompt": "Use TDD: write a failing test first, then implement the feature.",
+      "mode": "agent",
+      "tags": [
+        "testing",
+        "workflow"
+      ],
+      "expectedAny": [
+        "test-driven-development"
+      ],
+      "forbidden": [
+        "postgres-best-practices",
+        "mcp-builder"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "test-driven-development",
+        "systematic-debugging"
+      ],
+      "recommended": [
+        "test-driven-development",
+        "systematic-debugging"
+      ],
+      "scores": [
+        {
+          "id": "test-driven-development",
+          "score": 14,
+          "reason": "triggers: TDD, test first, failing test"
+        },
+        {
+          "id": "systematic-debugging",
+          "score": 4,
+          "reason": "matched"
+        }
+      ],
+      "budget": {
+        "used": 1050,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "test-driven-development"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 1050,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "implementation-plan",
+      "prompt": "Write an implementation plan and task decomposition for a multi-step auth migration.",
+      "mode": "agent",
+      "tags": [
+        "workflow"
+      ],
+      "expectedAny": [
+        "writing-plans"
+      ],
+      "forbidden": [
+        "mcp-builder",
+        "frontend-design"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "writing-plans",
+        "postgres-best-practices"
+      ],
+      "recommended": [
+        "writing-plans",
+        "postgres-best-practices"
+      ],
+      "scores": [
+        {
+          "id": "writing-plans",
+          "score": 8,
+          "reason": "triggers: implementation plan, task decomposition"
+        },
+        {
+          "id": "postgres-best-practices",
+          "score": 2,
+          "reason": "triggers: migration"
+        }
+      ],
+      "budget": {
+        "used": 1200,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "writing-plans"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 1200,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "verification-pr",
+      "prompt": "Open a PR and verify the evidence for the completed fix.",
+      "mode": "agent",
+      "tags": [
+        "workflow",
+        "verification"
+      ],
+      "expectedAny": [
+        "verification-before-completion"
+      ],
+      "forbidden": [
+        "postgres-best-practices",
+        "mcp-builder"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "verification-before-completion"
+      ],
+      "recommended": [
+        "verification-before-completion"
+      ],
+      "scores": [
+        {
+          "id": "verification-before-completion",
+          "score": 6,
+          "reason": "triggers: PR, verify, evidence"
+        }
+      ],
+      "budget": {
+        "used": 300,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "verification-before-completion"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 300,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "tailwind-tokens",
+      "prompt": "Set up Tailwind utility classes and a small design-system token file.",
+      "mode": "agent",
+      "tags": [
+        "tooling",
+        "styling"
+      ],
+      "expectedAny": [
+        "tailwindcss-development"
+      ],
+      "forbidden": [
+        "postgres-best-practices",
+        "mcp-builder"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "tailwindcss-development"
+      ],
+      "recommended": [
+        "tailwindcss-development"
+      ],
+      "scores": [
+        {
+          "id": "tailwindcss-development",
+          "score": 6,
+          "reason": "triggers: tailwind, utility classes"
+        },
+        {
+          "id": "emil-design-eng",
+          "score": 2,
+          "reason": "triggers: design"
+        },
+        {
+          "id": "frontend-design",
+          "score": 2,
+          "reason": "triggers: design"
+        }
+      ],
+      "budget": {
+        "used": 2847,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "tailwindcss-development"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 2847,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "ui-library-toasts",
+      "prompt": "Which library should I use for toasts and drag and drop in React?",
+      "mode": "agent",
+      "tags": [
+        "tooling",
+        "react"
+      ],
+      "expectedAny": [
+        "pick-ui-library"
+      ],
+      "forbidden": [
+        "postgres-best-practices",
+        "mcp-builder"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "pick-ui-library",
+        "emil-design-eng",
+        "improve-animations"
+      ],
+      "recommended": [
+        "pick-ui-library",
+        "emil-design-eng",
+        "improve-animations"
+      ],
+      "scores": [
+        {
+          "id": "pick-ui-library",
+          "score": 10,
+          "reason": "triggers: which library, toasts, drag and drop"
+        },
+        {
+          "id": "emil-design-eng",
+          "score": 6,
+          "reason": "triggers: drag"
+        },
+        {
+          "id": "improve-animations",
+          "score": 4,
+          "reason": "matched"
+        },
+        {
+          "id": "review-animations",
+          "score": 4,
+          "reason": "matched"
+        },
+        {
+          "id": "apple-design",
+          "score": 2,
+          "reason": "triggers: drag"
+        }
+      ],
+      "budget": {
+        "used": 1850,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "pick-ui-library"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 1850,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "theme-palette",
+      "prompt": "Create a color palette and font pairing for the brand theme.",
+      "mode": "agent",
+      "tags": [
+        "design",
+        "theming"
+      ],
+      "expectedAny": [
+        "theme-factory"
+      ],
+      "forbidden": [
+        "postgres-best-practices",
+        "mcp-builder"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "theme-factory",
+        "frontend-design"
+      ],
+      "recommended": [
+        "theme-factory",
+        "frontend-design"
+      ],
+      "scores": [
+        {
+          "id": "theme-factory",
+          "score": 10,
+          "reason": "triggers: theme, color palette, font pairing"
+        },
+        {
+          "id": "frontend-design",
+          "score": 2,
+          "reason": "triggers: palette"
+        }
+      ],
+      "budget": {
+        "used": 950,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "theme-factory"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 950,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "playwright-e2e",
+      "prompt": "Write a Playwright browser automation test for the checkout flow.",
+      "mode": "agent",
+      "tags": [
+        "testing"
+      ],
+      "expectedAny": [
+        "webapp-testing"
+      ],
+      "forbidden": [
+        "postgres-best-practices",
+        "mcp-builder"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "webapp-testing"
+      ],
+      "recommended": [
+        "webapp-testing"
+      ],
+      "scores": [
+        {
+          "id": "webapp-testing",
+          "score": 6,
+          "reason": "triggers: Playwright, browser automation"
+        }
+      ],
+      "budget": {
+        "used": 400,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "webapp-testing"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 400,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "interactive-3d",
+      "prompt": "Build an interactive 3D scene with three.js and WebGL.",
+      "mode": "agent",
+      "tags": [
+        "tooling",
+        "3d"
+      ],
+      "expectedAny": [
+        "interactive-3d"
+      ],
+      "forbidden": [
+        "postgres-best-practices",
+        "mcp-builder"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "interactive-3d"
+      ],
+      "recommended": [
+        "interactive-3d"
+      ],
+      "scores": [
+        {
+          "id": "interactive-3d",
+          "score": 14,
+          "reason": "triggers: 3d, webgl, three.js, interactive 3d, 3d scene"
+        },
+        {
+          "id": "baseline-ui",
+          "score": 3,
+          "reason": "matched"
+        },
+        {
+          "id": "frontend-design",
+          "score": 3,
+          "reason": "matched"
+        }
+      ],
+      "budget": {
+        "used": 900,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "interactive-3d"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 900,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "single-html-artifact",
+      "prompt": "Create a single HTML React artifact bundled as one file with shadcn/ui.",
+      "mode": "agent",
+      "tags": [
+        "tooling",
+        "artifacts"
+      ],
+      "expectedAny": [
+        "web-artifacts-builder"
+      ],
+      "forbidden": [
+        "postgres-best-practices",
+        "mcp-builder"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "web-artifacts-builder"
+      ],
+      "recommended": [
+        "web-artifacts-builder"
+      ],
+      "scores": [
+        {
+          "id": "web-artifacts-builder",
+          "score": 10,
+          "reason": "triggers: single HTML, shadcn/ui, React artifact"
+        },
+        {
+          "id": "baseline-ui",
+          "score": 3,
+          "reason": "matched"
+        },
+        {
+          "id": "frontend-design",
+          "score": 3,
+          "reason": "matched"
+        }
+      ],
+      "budget": {
+        "used": 400,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "web-artifacts-builder"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 400,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "anti-ai-slop",
+      "prompt": "Remove the generic AI look and make the interface feel hand-crafted, not bland AI.",
+      "mode": "agent",
+      "tags": [
+        "design",
+        "quality"
+      ],
+      "expectedAny": [
+        "no-ai-slop"
+      ],
+      "forbidden": [
+        "postgres-best-practices",
+        "mcp-builder"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "no-ai-slop"
+      ],
+      "recommended": [
+        "no-ai-slop"
+      ],
+      "scores": [
+        {
+          "id": "no-ai-slop",
+          "score": 8,
+          "reason": "triggers: bland AI, generic AI look"
+        }
+      ],
+      "budget": {
+        "used": 10853,
+        "limit": 3000,
+        "over": true
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "no-ai-slop"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 10853,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "core-web-vitals",
+      "prompt": "Improve Core Web Vitals: LCP, INP, and CLS on the landing page.",
+      "mode": "agent",
+      "tags": [
+        "quality",
+        "performance"
+      ],
+      "expectedAny": [
+        "core-web-vitals"
+      ],
+      "forbidden": [
+        "postgres-best-practices",
+        "mcp-builder"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "core-web-vitals",
+        "frontend-design"
+      ],
+      "recommended": [
+        "core-web-vitals",
+        "frontend-design"
+      ],
+      "scores": [
+        {
+          "id": "core-web-vitals",
+          "score": 10,
+          "reason": "triggers: core web vitals, LCP, INP, CLS"
+        },
+        {
+          "id": "frontend-design",
+          "score": 4,
+          "reason": "triggers: landing page"
+        }
+      ],
+      "budget": {
+        "used": 1250,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "core-web-vitals"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 1250,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "best-practices-audit",
+      "prompt": "Run a security audit for CSP, HSTS, and deprecated API usage.",
+      "mode": "agent",
+      "tags": [
+        "quality",
+        "security"
+      ],
+      "expectedAny": [
+        "best-practices"
+      ],
+      "forbidden": [
+        "postgres-best-practices",
+        "mcp-builder"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "best-practices",
+        "postgres-best-practices"
+      ],
+      "recommended": [
+        "best-practices",
+        "postgres-best-practices"
+      ],
+      "scores": [
+        {
+          "id": "best-practices",
+          "score": 12,
+          "reason": "triggers: security audit, CSP, HSTS, deprecated API"
+        },
+        {
+          "id": "postgres-best-practices",
+          "score": 4,
+          "reason": "matched"
+        }
+      ],
+      "budget": {
+        "used": 1400,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "best-practices"
+      ],
+      "forbiddenSelected": [
+        "postgres-best-practices"
+      ],
+      "emptySelection": false,
+      "selectedTokens": 1400,
+      "passed": false,
+      "failureReason": "Selected forbidden skill(s): postgres-best-practices."
+    },
+    {
+      "id": "trivial-email",
+      "prompt": "Draft a short email thanking the team for attending the workshop.",
+      "mode": "agent",
+      "tags": [
+        "negative"
+      ],
+      "expectedAny": [],
+      "forbidden": [
+        "frontend-design",
+        "postgres-best-practices",
+        "mcp-builder"
+      ],
+      "expectNone": true,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [],
+      "recommended": [],
+      "scores": [],
+      "budget": {
+        "used": 0,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": false,
+      "hitAtK": false,
+      "expectedMatched": [],
+      "forbiddenSelected": [],
+      "emptySelection": true,
+      "selectedTokens": 0,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "ask-mode-postgres",
+      "prompt": "Explain how a Postgres index improves query performance.",
+      "mode": "ask",
+      "tags": [
+        "backend",
+        "mode"
+      ],
+      "expectedAny": [
+        "postgres-best-practices"
+      ],
+      "forbidden": [
+        "mcp-builder"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "postgres-best-practices"
+      ],
+      "recommended": [
+        "postgres-best-practices"
+      ],
+      "scores": [
+        {
+          "id": "postgres-best-practices",
+          "score": 4,
+          "reason": "triggers: postgres, index, EXPLAIN, query performance"
+        }
+      ],
+      "budget": {
+        "used": 700,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "postgres-best-practices"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 700,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "enabled-subset",
+      "prompt": "Fix accessibility issues in the modal focus trap.",
+      "mode": "agent",
+      "tags": [
+        "quality",
+        "config"
+      ],
+      "expectedAny": [
+        "accessibility"
+      ],
+      "forbidden": [
+        "mcp-builder"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "frontend-design",
+        "mcp-builder"
+      ],
+      "selected": [
+        "accessibility"
+      ],
+      "recommended": [
+        "accessibility"
+      ],
+      "scores": [
+        {
+          "id": "accessibility",
+          "score": 10,
+          "reason": "triggers: accessibility, focus"
+        }
+      ],
+      "budget": {
+        "used": 900,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "accessibility"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 900,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "rest-api-endpoint",
+      "prompt": "Build a REST API endpoint for user authentication with Postgres.",
+      "mode": "agent",
+      "tags": [
+        "backend",
+        "regression"
+      ],
+      "expectedAny": [
+        "postgres-best-practices"
+      ],
+      "forbidden": [
+        "mcp-builder",
+        "frontend-design"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "postgres-best-practices"
+      ],
+      "recommended": [
+        "postgres-best-practices"
+      ],
+      "scores": [
+        {
+          "id": "postgres-best-practices",
+          "score": 6,
+          "reason": "triggers: postgres"
+        }
+      ],
+      "budget": {
+        "used": 700,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "postgres-best-practices"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 700,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "nextjs-dashboard",
+      "prompt": "Create a new Next.js dashboard page with a clear visual hierarchy and responsive layout.",
+      "mode": "agent",
+      "tags": [
+        "design",
+        "frontend"
+      ],
+      "expectedAny": [
+        "baseline-ui",
+        "frontend-design"
+      ],
+      "forbidden": [
+        "postgres-best-practices",
+        "mcp-builder"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "baseline-ui"
+      ],
+      "recommended": [
+        "baseline-ui"
+      ],
+      "scores": [
+        {
+          "id": "baseline-ui",
+          "score": 7,
+          "reason": "triggers: layout, hierarchy"
+        },
+        {
+          "id": "frontend-design",
+          "score": 5,
+          "reason": "triggers: layout"
+        }
+      ],
+      "budget": {
+        "used": 3419,
+        "limit": 3000,
+        "over": true
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "baseline-ui"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 3419,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "design-review",
+      "prompt": "Do a design review and UX critique of the checkout page.",
+      "mode": "agent",
+      "tags": [
+        "design",
+        "review"
+      ],
+      "expectedAny": [
+        "impeccable"
+      ],
+      "forbidden": [
+        "postgres-best-practices",
+        "mcp-builder"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "impeccable",
+        "emil-design-eng"
+      ],
+      "recommended": [
+        "impeccable",
+        "emil-design-eng"
+      ],
+      "scores": [
+        {
+          "id": "impeccable",
+          "score": 6,
+          "reason": "triggers: design review, critique"
+        },
+        {
+          "id": "emil-design-eng",
+          "score": 2,
+          "reason": "triggers: design"
+        }
+      ],
+      "budget": {
+        "used": 1300,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "impeccable"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 1300,
+      "passed": true,
+      "failureReason": null
+    },
+    {
+      "id": "motion-audit",
+      "prompt": "Audit the motion in this app and give me an animation roadmap.",
+      "mode": "agent",
+      "tags": [
+        "design",
+        "motion"
+      ],
+      "expectedAny": [
+        "improve-animations",
+        "emil-design-eng"
+      ],
+      "forbidden": [
+        "postgres-best-practices",
+        "mcp-builder"
+      ],
+      "expectNone": false,
+      "enabledSkills": [
+        "accessibility",
+        "apple-design",
+        "baseline-ui",
+        "best-practices",
+        "core-web-vitals",
+        "emil-design-eng",
+        "frontend-design",
+        "impeccable",
+        "improve-animations",
+        "interactive-3d",
+        "mcp-builder",
+        "no-ai-slop",
+        "pick-ui-library",
+        "postgres-best-practices",
+        "react-performance",
+        "review-animations",
+        "seo-metadata",
+        "systematic-debugging",
+        "tailwindcss-development",
+        "test-driven-development",
+        "theme-factory",
+        "verification-before-completion",
+        "web-artifacts-builder",
+        "webapp-testing",
+        "writing-plans"
+      ],
+      "selected": [
+        "emil-design-eng",
+        "improve-animations",
+        "review-animations"
+      ],
+      "recommended": [
+        "emil-design-eng",
+        "improve-animations",
+        "review-animations"
+      ],
+      "scores": [
+        {
+          "id": "emil-design-eng",
+          "score": 8,
+          "reason": "triggers: animation, motion"
+        },
+        {
+          "id": "improve-animations",
+          "score": 8,
+          "reason": "triggers: animation roadmap"
+        },
+        {
+          "id": "review-animations",
+          "score": 4,
+          "reason": "matched"
+        }
+      ],
+      "budget": {
+        "used": 1900,
+        "limit": 3000,
+        "over": false
+      },
+      "hitAt1": true,
+      "hitAtK": true,
+      "expectedMatched": [
+        "improve-animations",
+        "emil-design-eng"
+      ],
+      "forbiddenSelected": [],
+      "emptySelection": false,
+      "selectedTokens": 1900,
+      "passed": true,
+      "failureReason": null
+    }
+  ]
+}

@@ -1,67 +1,110 @@
 # Node CLI
 
-An agentic coding CLI built on `@anthropic-ai/claude-agent-sdk`. Runs anywhere, like Claude Code.
+Node CLI is an AI-powered coding assistant that runs in your terminal. Think of it as a smart assistant you can talk to about your code — it can read files, make edits, run commands, search the web, and help you plan and build software projects.
 
-![Node.js](https://img.shields.io/badge/Node.js-%3E%3D18-blue?style=flat-square)
-![pnpm](https://img.shields.io/badge/pnpm-12.10.1-orange?style=flat-square)
-![License](https://img.shields.io/badge/License-ISC-green?style=flat-square)
+You interact with it through a chat-like interface. You type what you want to do, and it figures out which actions to take, asking your permission before making changes to your files.
 
 ---
 
-## Quick start
+## How to install and start
 
-```bash
-pnpm install
-pnpm build
-pnpm add -g .
-```
+### What you need
 
-The last command links this package globally so `node-cli` works from any directory.
+- **Node.js** version 18 or newer
+- **pnpm** version 12.10.1 or newer
+
+### Install
+
+1. Download or clone this project.
+2. Open a terminal in the project folder and run:
+
+   ```bash
+   pnpm install
+   pnpm build
+   pnpm add -g .
+   ```
+
+   The last command makes the `node-cli` command available from anywhere on your computer.
+
+3. Start the assistant:
+
+   ```bash
+   node-cli wake-up
+   ```
+
+   You'll see a banner, an environment check, and a menu to pick a mode. Then you can start chatting.
+
+### Set up your AI key
+
+Node CLI needs an AI model to generate responses. The easiest way is to get a free API key from [OpenRouter](https://openrouter.ai):
+
+1. Create an account at OpenRouter and generate an API key.
+2. Run `node-cli setup` and follow the prompts, or create a file named `.env` in the project folder with:
+
+   ```
+   OPENROUTER_API_KEY=your_key_here
+   ```
+
+3. Run `node-cli wake-up` again.
+
+---
+
+## How to use the main features
+
+### Start a chat
 
 ```bash
 node-cli wake-up
 ```
 
-Banner, environment check, mode picker, then chat.
+Pick a mode (see below), then type your request. For example:
+
+- "Read the files in my project and explain how they're organized."
+- "Fix the bug in src/utils.js where the date format is wrong."
+- "Create a new file called hello.html with a simple page."
+- "Check if https://example.com loads without errors."
+
+### Send a one-shot prompt
+
+If you just want a quick answer without starting a full chat:
+
+```bash
+node-cli run "Explain how to center a div in CSS"
+node-cli talk "Create a todo list page with HTML and CSS"
+```
+
+`run` lets you pick a mode; `talk` always uses the full editing mode.
 
 ---
 
-## Commands
+### Switch modes mid-chat
 
-| Command | Description |
-|---|---|
-| `wake-up` | Banner, environment check, mode picker, then chat |
-| `chat [-m mode] [-v]` | Interactive streaming chat |
-| `run <prompt> [-m mode] [-v]` | One-shot prompt |
-| `talk <prompt> [-v]` | One-shot prompt in agent mode |
-| `doctor` | Check Node version and credentials |
-| `banner` | ASCII banner |
-| `help` | Show CLI help |
+While chatting, type:
 
-Flags: `-m, --mode <agent|ask|plan>` (default `agent`), `-v, --verbose`.
+- `/mode agent` — Full editing mode (default).
+- `/mode ask` — Read-only answers; no file changes.
+- `/mode plan` — Read-only planning; proposes steps without editing.
+- `/mode strict` — Full editing, but asks for approval on every change.
 
-### Slash commands
+### Other useful slash commands
 
-| Command | Description |
-|---|---|
-| `/mode <agent\|ask\|plan>` | Switch mode mid-session |
-| `/context` | Token usage for the session |
-| `/help` | List slash commands |
-| `/clear` | Clear the terminal |
-| `/exit` | Shut down and exit |
+Type any of these while in a chat:
 
----
+- `/help` — List all available commands.
+- `/model` — Switch the AI model (shows free options from OpenRouter).
+- `/skills` — Manage AI skills that add specialized knowledge.
+- `/memory` — Save and recall notes across conversations.
+- `/qa <url>` — Check a web page for loading problems.
+- `/exit` — Quit the chat.
 
-## Modes
+## Working modes explained
 
-| Mode | Permission mode | Tools | Turns | Behaviour |
-|---|---|---|---|---|
-| `agent` | `default` | Read, Grep, Glob, WebSearch, WebFetch, Edit, Write, Bash | 25 | Full loop, asks before every write |
-| `ask` | `dontAsk` | Read, Grep, Glob, WebSearch, WebFetch | 6 | Read-only answers |
-| `plan` | `plan` | Read, Grep, Glob, WebSearch, WebFetch | 6 | Read-only, proposes a plan |
-
-`Agent`, `Task`, `SendMessage`, `ScheduleWakeup`, cron tools, `TodoWrite`, `NotebookEdit`,
-`Skill`, `SlashCommand`, `ExitPlanMode`, `KillShell` and `BashOutput` are disallowed in every mode.
+| Mode | What it can do | Best for |
+|------|---------------|----------|
+| **Agent** | Read files, edit files, run commands, search the web | General coding help, building features, fixing bugs |
+| **Strict** | Same as agent, but asks before every single change | When you want to review everything before it happens |
+| **Ask** | Read files and search, but cannot edit or run commands | Getting explanations, learning how code works |
+| **Plan** | Read files and search, proposes a plan without editing | Figuring out what to build before making changes |
 
 ---
 
