@@ -15,6 +15,7 @@ import { requireCredentials } from "../config/env.js";
 import { skillIndex } from "../skills/registry.js";
 import { loadMemoryContext } from "../memory/memory.js";
 import { existsSync, readFileSync } from "node:fs";
+import { buildDesignAnchor } from "../figma/design-anchor.js";
 import { join } from "node:path";
 
 export function buildSdkOptions(mode: Mode, sessionSkills: string[] = []): Options {
