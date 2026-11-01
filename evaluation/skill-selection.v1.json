@@ -1,0 +1,260 @@
+{
+  "version": 1,
+  "selectionVersion": "router-v1",
+  "description": "Golden prompts for deterministic skill-selection evaluation. Labels are authored from task semantics against the verified skill catalog; they were not tuned to selector output.",
+  "cases": [
+    {
+      "id": "landing-page-design",
+      "prompt": "Build a polished, distinctive landing page for a SaaS product with strong typography and a restrained palette.",
+      "mode": "agent",
+      "expectedAny": ["frontend-design"],
+      "forbidden": ["postgres-best-practices", "mcp-builder", "webapp-testing"],
+      "tags": ["design", "frontend"],
+      "notes": "Landing-page visual design is the primary task."
+    },
+    {
+      "id": "design-polish-existing",
+      "prompt": "Improve the existing design to the next level; fix spacing, hierarchy, and the overall layout.",
+      "mode": "agent",
+      "expectedAny": ["frontend-design", "baseline-ui"],
+      "forbidden": ["postgres-best-practices", "mcp-builder"],
+      "tags": ["design", "frontend"],
+      "notes": "Design improvement should route to design skills, not backend tooling."
+    },
+    {
+      "id": "accessibility-audit",
+      "prompt": "Fix accessibility issues: keyboard navigation, focus states, and ARIA labels.",
+      "mode": "agent",
+      "expectedAny": ["accessibility"],
+      "forbidden": ["postgres-best-practices", "mcp-builder", "interactive-3d"],
+      "tags": ["quality", "a11y"],
+      "notes": "Explicit WCAG vocabulary."
+    },
+    {
+      "id": "animation-spring",
+      "prompt": "Add a spring animation to the modal dialog with interruptible drag gestures.",
+      "mode": "agent",
+      "expectedAny": ["emil-design-eng", "apple-design"],
+      "forbidden": ["postgres-best-practices", "mcp-builder"],
+      "tags": ["design", "motion"],
+      "notes": "Motion engineering vocabulary."
+    },
+    {
+      "id": "react-rerenders",
+      "prompt": "Optimize unnecessary rerenders in a React list and memoize expensive children.",
+      "mode": "agent",
+      "expectedAny": ["react-performance"],
+      "forbidden": ["postgres-best-practices", "mcp-builder"],
+      "tags": ["react", "performance"],
+      "notes": "React render-performance work."
+    },
+    {
+      "id": "seo-metadata",
+      "prompt": "Add canonical URLs, Open Graph tags, and a meta description for SEO.",
+      "mode": "agent",
+      "expectedAny": ["seo-metadata"],
+      "forbidden": ["postgres-best-practices", "mcp-builder"],
+      "tags": ["quality", "seo"],
+      "notes": "Metadata-specific task."
+    },
+    {
+      "id": "postgres-index",
+      "prompt": "Add a Postgres index and migration for a slow query; explain the plan.",
+      "mode": "agent",
+      "expectedAny": ["postgres-best-practices"],
+      "forbidden": ["mcp-builder", "frontend-design"],
+      "tags": ["backend", "database"],
+      "notes": "Database performance and migration."
+    },
+    {
+      "id": "mcp-server",
+      "prompt": "Build an MCP server with FastMCP that exposes a resource and a tool definition.",
+      "mode": "agent",
+      "expectedAny": ["mcp-builder"],
+      "forbidden": ["postgres-best-practices", "frontend-design"],
+      "tags": ["tooling", "mcp"],
+      "notes": "MCP authoring is the positive control for mcp-builder boosts."
+    },
+    {
+      "id": "debug-crash",
+      "prompt": "Debug why the login flow crashes on submit; find the root cause from the stack trace.",
+      "mode": "agent",
+      "expectedAny": ["systematic-debugging"],
+      "forbidden": ["frontend-design", "mcp-builder"],
+      "tags": ["debugging"],
+      "notes": "Root-cause debugging."
+    },
+    {
+      "id": "tdd-feature",
+      "prompt": "Use TDD: write a failing test first, then implement the feature.",
+      "mode": "agent",
+      "expectedAny": ["test-driven-development"],
+      "forbidden": ["postgres-best-practices", "mcp-builder"],
+      "tags": ["testing", "workflow"],
+      "notes": "Explicit TDD request."
+    },
+    {
+      "id": "implementation-plan",
+      "prompt": "Write an implementation plan and task decomposition for a multi-step auth migration.",
+      "mode": "agent",
+      "expectedAny": ["writing-plans"],
+      "forbidden": ["mcp-builder", "frontend-design"],
+      "tags": ["workflow"],
+      "notes": "Planning artifact, not implementation."
+    },
+    {
+      "id": "verification-pr",
+      "prompt": "Open a PR and verify the evidence for the completed fix.",
+      "mode": "agent",
+      "expectedAny": ["verification-before-completion"],
+      "forbidden": ["postgres-best-practices", "mcp-builder"],
+      "tags": ["workflow", "verification"],
+      "notes": "Completion evidence and PR vocabulary."
+    },
+    {
+      "id": "tailwind-tokens",
+      "prompt": "Set up Tailwind utility classes and a small design-system token file.",
+      "mode": "agent",
+      "expectedAny": ["tailwindcss-development"],
+      "forbidden": ["postgres-best-practices", "mcp-builder"],
+      "tags": ["tooling", "styling"],
+      "notes": "Utility-first styling."
+    },
+    {
+      "id": "ui-library-toasts",
+      "prompt": "Which library should I use for toasts and drag and drop in React?",
+      "mode": "agent",
+      "expectedAny": ["pick-ui-library"],
+      "forbidden": ["postgres-best-practices", "mcp-builder"],
+      "tags": ["tooling", "react"],
+      "notes": "Library-selection question."
+    },
+    {
+      "id": "theme-palette",
+      "prompt": "Create a color palette and font pairing for the brand theme.",
+      "mode": "agent",
+      "expectedAny": ["theme-factory"],
+      "forbidden": ["postgres-best-practices", "mcp-builder"],
+      "tags": ["design", "theming"],
+      "notes": "Theme token generation."
+    },
+    {
+      "id": "playwright-e2e",
+      "prompt": "Write a Playwright browser automation test for the checkout flow.",
+      "mode": "agent",
+      "expectedAny": ["webapp-testing"],
+      "forbidden": ["postgres-best-practices", "mcp-builder"],
+      "tags": ["testing"],
+      "notes": "Browser automation task."
+    },
+    {
+      "id": "interactive-3d",
+      "prompt": "Build an interactive 3D scene with three.js and WebGL.",
+      "mode": "agent",
+      "expectedAny": ["interactive-3d"],
+      "forbidden": ["postgres-best-practices", "mcp-builder"],
+      "tags": ["tooling", "3d"],
+      "notes": "WebGL work."
+    },
+    {
+      "id": "single-html-artifact",
+      "prompt": "Create a single HTML React artifact bundled as one file with shadcn/ui.",
+      "mode": "agent",
+      "expectedAny": ["web-artifacts-builder"],
+      "forbidden": ["postgres-best-practices", "mcp-builder"],
+      "tags": ["tooling", "artifacts"],
+      "notes": "Single-file artifact generation."
+    },
+    {
+      "id": "anti-ai-slop",
+      "prompt": "Remove the generic AI look and make the interface feel hand-crafted, not bland AI.",
+      "mode": "agent",
+      "expectedAny": ["no-ai-slop"],
+      "forbidden": ["postgres-best-practices", "mcp-builder"],
+      "tags": ["design", "quality"],
+      "notes": "Explicit anti-generic design request."
+    },
+    {
+      "id": "core-web-vitals",
+      "prompt": "Improve Core Web Vitals: LCP, INP, and CLS on the landing page.",
+      "mode": "agent",
+      "expectedAny": ["core-web-vitals"],
+      "forbidden": ["postgres-best-practices", "mcp-builder"],
+      "tags": ["quality", "performance"],
+      "notes": "Web-vitals acronyms."
+    },
+    {
+      "id": "best-practices-audit",
+      "prompt": "Run a security audit for CSP, HSTS, and deprecated API usage.",
+      "mode": "agent",
+      "expectedAny": ["best-practices"],
+      "forbidden": ["postgres-best-practices", "mcp-builder"],
+      "tags": ["quality", "security"],
+      "notes": "Generic API mention must not pull in mcp-builder or postgres."
+    },
+    {
+      "id": "trivial-email",
+      "prompt": "Draft a short email thanking the team for attending the workshop.",
+      "mode": "agent",
+      "expectNone": true,
+      "forbidden": ["frontend-design", "postgres-best-practices", "mcp-builder"],
+      "tags": ["negative"],
+      "notes": "Non-technical prompt with no matching skill vocabulary."
+    },
+    {
+      "id": "ask-mode-postgres",
+      "prompt": "Explain how a Postgres index improves query performance.",
+      "mode": "ask",
+      "expectedAny": ["postgres-best-practices"],
+      "forbidden": ["mcp-builder"],
+      "tags": ["backend", "mode"],
+      "notes": "Ask mode still routes a read-only database question."
+    },
+    {
+      "id": "enabled-subset",
+      "prompt": "Fix accessibility issues in the modal focus trap.",
+      "mode": "agent",
+      "enabledSkills": ["accessibility", "frontend-design", "mcp-builder"],
+      "expectedAny": ["accessibility"],
+      "forbidden": ["mcp-builder"],
+      "tags": ["quality", "config"],
+      "notes": "Selection must respect the configured enabled subset."
+    },
+    {
+      "id": "rest-api-endpoint",
+      "prompt": "Build a REST API endpoint for user authentication with Postgres.",
+      "mode": "agent",
+      "expectedAny": ["postgres-best-practices"],
+      "forbidden": ["mcp-builder", "frontend-design"],
+      "tags": ["backend", "regression"],
+      "notes": "Regression: generic API work must not select mcp-builder."
+    },
+    {
+      "id": "nextjs-dashboard",
+      "prompt": "Create a new Next.js dashboard page with a clear visual hierarchy and responsive layout.",
+      "mode": "agent",
+      "expectedAny": ["baseline-ui", "frontend-design"],
+      "forbidden": ["postgres-best-practices", "mcp-builder"],
+      "tags": ["design", "frontend"],
+      "notes": "Page-level UI construction."
+    },
+    {
+      "id": "design-review",
+      "prompt": "Do a design review and UX critique of the checkout page.",
+      "mode": "agent",
+      "expectedAny": ["impeccable"],
+      "forbidden": ["postgres-best-practices", "mcp-builder"],
+      "tags": ["design", "review"],
+      "notes": "Critique/review rather than implementation."
+    },
+    {
+      "id": "motion-audit",
+      "prompt": "Audit the motion in this app and give me an animation roadmap.",
+      "mode": "agent",
+      "expectedAny": ["improve-animations", "emil-design-eng"],
+      "forbidden": ["postgres-best-practices", "mcp-builder"],
+      "tags": ["design", "motion"],
+      "notes": "Motion audit/roadmap vocabulary."
+    }
+  ]
+}

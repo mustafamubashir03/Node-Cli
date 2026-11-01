@@ -1,0 +1,336 @@
+{
+  "version": 1,
+  "generatedFrom": "src/config/catalog.json",
+  "skills": {
+    "figma-to-code": {
+      "sourceRepo": "node-cli",
+      "folderPath": "src/skills/builtin/figma-to-code",
+      "commitSha": "54ee69d3d6e3a2c858d61401b6af47b7a1ad4611",
+      "license": "ISC",
+      "verified": true
+    },
+    "emil-design-eng": {
+      "sourceRepo": "github.com/emilkowalski/skills",
+      "folderPath": "skills/emil-design-eng",
+      "commitSha": "2d228630ba1446365f614a108cb8252f1feda202",
+      "license": "MIT",
+      "verified": true
+    },
+    "improve-animations": {
+      "sourceRepo": "github.com/emilkowalski/skills",
+      "folderPath": "skills/improve-animations",
+      "commitSha": "cf1f7aabac34c08f2cf833f039fa99af2f415183",
+      "license": "MIT",
+      "verified": true
+    },
+    "pick-ui-library": {
+      "sourceRepo": "github.com/emilkowalski/skills",
+      "folderPath": "skills/pick-ui-library",
+      "commitSha": "370e19776f0aa2403a2edeed78266bd6a5d78036",
+      "license": "MIT",
+      "verified": true
+    },
+    "review-animations": {
+      "sourceRepo": "github.com/emilkowalski/skills",
+      "folderPath": "skills/review-animations",
+      "commitSha": "0e0d3cb3e07ca307fe946ccaf57f6c82eb75124a",
+      "license": "MIT",
+      "verified": true
+    },
+    "apple-design": {
+      "sourceRepo": "github.com/emilkowalski/skills",
+      "folderPath": "skills/apple-design",
+      "commitSha": "cd509ae729c86487d352e17a26651217a4c25711",
+      "license": "MIT",
+      "verified": true
+    },
+    "accessibility": {
+      "sourceRepo": "github.com/addyosmani/web-quality-skills",
+      "folderPath": "skills/accessibility",
+      "commitSha": "90b7b38a892c625d19408df411e46cca7ff3819d",
+      "license": "MIT",
+      "verified": true
+    },
+    "best-practices": {
+      "sourceRepo": "github.com/addyosmani/web-quality-skills",
+      "folderPath": "skills/best-practices",
+      "commitSha": "3f87de92fa71fc2e9741e6890fd991e8308db191",
+      "license": "MIT",
+      "verified": true
+    },
+    "baseline-ui": {
+      "sourceRepo": "github.com/whawkinsiv/solo-founder-skills",
+      "folderPath": "skills/baseline-ui",
+      "commitSha": "a113dc33a49e7d3e557e3edace07e0afadf784bb",
+      "license": "MIT",
+      "verified": true
+    },
+    "core-web-vitals": {
+      "sourceRepo": "github.com/addyosmani/web-quality-skills",
+      "folderPath": "skills/core-web-vitals",
+      "commitSha": "79f9fe00ddd0855b35e7498e3752c6d02304eb65",
+      "license": "MIT",
+      "verified": true
+    },
+    "performance": {
+      "sourceRepo": "github.com/addyosmani/web-quality-skills",
+      "sourceUrl": "https://github.com/addyosmani/web-quality-skills/tree/main/skills/performance",
+      "commitSha": null,
+      "license": "MIT",
+      "verified": false,
+      "note": "Provenance not yet verified; bundled file present but no immutable commit SHA recorded."
+    },
+    "seo": {
+      "sourceRepo": "github.com/addyosmani/web-quality-skills",
+      "sourceUrl": "https://github.com/addyosmani/web-quality-skills/tree/main/skills/seo",
+      "commitSha": null,
+      "license": "MIT",
+      "verified": false,
+      "note": "Provenance not yet verified; bundled file present but no immutable commit SHA recorded."
+    },
+    "web-quality-audit": {
+      "sourceRepo": "github.com/addyosmani/web-quality-skills",
+      "sourceUrl": "https://github.com/addyosmani/web-quality-skills/tree/main/skills/web-quality-audit",
+      "commitSha": null,
+      "license": "MIT",
+      "verified": false,
+      "note": "Provenance not yet verified; bundled file present but no immutable commit SHA recorded."
+    },
+    "vercel-composition-patterns": {
+      "sourceRepo": "github.com/vercel-labs/agent-skills",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills/tree/main/skills/composition-patterns",
+      "commitSha": null,
+      "license": "MIT",
+      "verified": false,
+      "note": "Provenance not yet verified; bundled file present but no immutable commit SHA recorded."
+    },
+    "vercel-react-view-transitions": {
+      "sourceRepo": "github.com/vercel-labs/agent-skills",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills/tree/main/skills/react-view-transitions",
+      "commitSha": null,
+      "license": "MIT",
+      "verified": false,
+      "note": "Provenance not yet verified; bundled file present but no immutable commit SHA recorded."
+    },
+    "web-artifacts-builder": {
+      "sourceRepo": "github.com/anthropics/skills",
+      "folderPath": "skills/web-artifacts-builder",
+      "commitSha": "821b94f16c123d5f12e4e72eda9f7a162e2698f6",
+      "license": "Custom terms in LICENSE.txt",
+      "verified": true
+    },
+    "frontend-design": {
+      "sourceRepo": "github.com/anthropics/skills",
+      "folderPath": "skills/frontend-design",
+      "commitSha": "d79e2a5bb4df4a386c2adcdd9ab8709bba28c3f6",
+      "license": "Custom terms in LICENSE.txt",
+      "verified": true
+    },
+    "mcp-builder": {
+      "sourceRepo": "github.com/anthropics/skills",
+      "folderPath": "skills/mcp-builder",
+      "commitSha": "b866bcfb57b780c10b587c7b543e871a91661ce0",
+      "license": "Custom terms in LICENSE.txt",
+      "verified": true
+    },
+    "theme-factory": {
+      "sourceRepo": "github.com/anthropics/skills",
+      "folderPath": "skills/theme-factory",
+      "commitSha": "e05534d132fb1b21f9917840874758e30f0a9b1a",
+      "license": "Custom terms in LICENSE.txt",
+      "verified": true
+    },
+    "webapp-testing": {
+      "sourceRepo": "github.com/anthropics/skills",
+      "folderPath": "skills/webapp-testing",
+      "commitSha": "5ffb7dc66b9fd4c25c3e400a4c00da99a349b714",
+      "license": "Custom terms in LICENSE.txt",
+      "verified": true
+    },
+    "postgres-best-practices": {
+      "sourceRepo": "github.com/supabase/agent-skills",
+      "folderPath": "skills/supabase-postgres-best-practices",
+      "commitSha": "27bde25111c4cd5e6f803fc9db5fbffe27bb26cf",
+      "license": "MIT",
+      "verified": true
+    },
+    "verification-before-completion": {
+      "sourceRepo": "github.com/obra/superpowers",
+      "folderPath": "skills/verification-before-completion",
+      "commitSha": "a4cb0b69aaefeab540947a7f1642bdaad810e37a",
+      "license": "MIT",
+      "verified": true
+    },
+    "writing-plans": {
+      "sourceRepo": "github.com/obra/superpowers",
+      "folderPath": "skills/writing-plans",
+      "commitSha": "cc97fa00eb2ccd4f283e34eb2ba06a48e1e679f7",
+      "license": "MIT",
+      "verified": true
+    },
+    "test-driven-development": {
+      "sourceRepo": "github.com/obra/superpowers",
+      "folderPath": "skills/test-driven-development",
+      "commitSha": "847144cf0824095922c0d4875648b9fa74877e1a",
+      "license": "MIT",
+      "verified": true
+    },
+    "systematic-debugging": {
+      "sourceRepo": "github.com/obra/superpowers",
+      "folderPath": "skills/systematic-debugging",
+      "commitSha": "108961c080a6837ad8a188a553e593cc5e6df62d",
+      "license": "MIT",
+      "verified": true
+    },
+    "impeccable": {
+      "sourceRepo": "github.com/pbakaus/impeccable",
+      "folderPath": "skill",
+      "commitSha": "d34c87e1a00989ae8dbdd7f6b30b70f23319e860",
+      "license": "Apache 2.0",
+      "verified": true
+    },
+    "figma-implement-design": {
+      "sourceRepo": "github.com/openai/skills",
+      "sourceUrl": "https://github.com/openai/skills/tree/main/skills/.curated/figma-implement-design",
+      "commitSha": null,
+      "license": "Custom terms in LICENSE.txt",
+      "verified": false,
+      "note": "Provenance not yet verified; bundled file present but no immutable commit SHA recorded."
+    },
+    "tailwindcss-development": {
+      "sourceRepo": "github.com/laravel/boost",
+      "folderPath": ".ai/tailwindcss/4/skill/tailwindcss-development",
+      "commitSha": "30e24b7c242049e31bd267cd64b57301fc66b2f4",
+      "license": "MIT",
+      "verified": true
+    },
+    "no-ai-slop": {
+      "sourceRepo": "github.com/petergyang/no-ai-slop",
+      "folderPath": "skills/no-ai-slop",
+      "commitSha": "000650b156983f5159695b441477f4e63b25dc85",
+      "license": "MIT",
+      "verified": true
+    },
+    "beautify": {
+      "sourceRepo": "github.com/whawkinsiv/solo-founder-skills",
+      "sourceUrl": "https://github.com/whawkinsiv/solo-founder-skills/tree/main/skills/beautify",
+      "commitSha": null,
+      "license": "MIT",
+      "verified": false,
+      "note": "Provenance not yet verified; bundled file present but no immutable commit SHA recorded."
+    },
+    "fixing-accessibility": {
+      "sourceRepo": "github.com/ibelick/ui-skills",
+      "sourceUrl": "https://github.com/ibelick/ui-skills/tree/main/skills/fixing-accessibility",
+      "commitSha": null,
+      "license": "MIT",
+      "verified": false,
+      "note": "Provenance not yet verified; bundled file present but no immutable commit SHA recorded."
+    },
+    "fixing-metadata": {
+      "sourceRepo": "github.com/ibelick/ui-skills",
+      "sourceUrl": "https://github.com/ibelick/ui-skills/tree/main/skills/fixing-metadata",
+      "commitSha": null,
+      "license": "MIT",
+      "verified": false,
+      "note": "Provenance not yet verified; bundled file present but no immutable commit SHA recorded."
+    },
+    "fixing-motion-performance": {
+      "sourceRepo": "github.com/ibelick/ui-skills",
+      "sourceUrl": "https://github.com/ibelick/ui-skills/tree/main/skills/fixing-motion-performance",
+      "commitSha": null,
+      "license": "MIT",
+      "verified": false,
+      "note": "Provenance not yet verified; bundled file present but no immutable commit SHA recorded."
+    },
+    "react-best-practices": {
+      "sourceRepo": "github.com/vercel-labs/agent-skills",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills/tree/main/skills/react-best-practices",
+      "commitSha": null,
+      "license": "MIT",
+      "verified": false,
+      "note": "Provenance not yet verified; bundled file present but no immutable commit SHA recorded."
+    },
+    "skill-creator": {
+      "sourceRepo": "github.com/anthropics/skills",
+      "sourceUrl": "https://github.com/anthropics/skills/tree/main/skills/skill-creator",
+      "commitSha": null,
+      "license": "Custom terms in LICENSE.txt",
+      "verified": false,
+      "note": "Provenance not yet verified; bundled file present but no immutable commit SHA recorded."
+    },
+    "web-design-guidelines": {
+      "sourceRepo": "github.com/vercel-labs/agent-skills",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills/tree/main/skills/web-design-guidelines",
+      "commitSha": null,
+      "license": "MIT",
+      "verified": false,
+      "note": "Provenance not yet verified; bundled file present but no immutable commit SHA recorded."
+    },
+    "interactive-3d": {
+      "sourceRepo": "node-cli",
+      "sourceUrl": null,
+      "folderPath": "skills/interactive-3d",
+      "commitSha": "first-party",
+      "license": "ISC",
+      "verified": true
+    },
+    "react-performance": {
+      "sourceRepo": "node-cli",
+      "sourceUrl": null,
+      "folderPath": "skills/react-performance",
+      "commitSha": "first-party",
+      "license": "ISC",
+      "verified": true
+    },
+    "seo-metadata": {
+      "sourceRepo": "node-cli",
+      "sourceUrl": null,
+      "folderPath": "skills/seo-metadata",
+      "commitSha": "first-party",
+      "license": "ISC",
+      "verified": true
+    },
+    "ui-ux-pro-max": {
+      "commitSha": "28b3b8dee8c976df4fa3e94aed4e092ad43fcb03",
+      "verified": true
+    }
+  },
+  "onDemand": {
+    "database": {
+      "sourceRepo": "github.com/whawkinsiv/solo-founder-skills",
+      "folderPath": "skills/database",
+      "commitSha": "01bd10f79a4b6a741be78e3184612a90ecbd54ef",
+      "license": null,
+      "reason": "Folder skills/database/ not found in repository tree"
+    },
+    "motion-polish": {
+      "sourceRepo": "github.com/whawkinsiv/solo-founder-skills",
+      "folderPath": "skills/motion-polish",
+      "commitSha": "01bd10f79a4b6a741be78e3184612a90ecbd54ef",
+      "license": null,
+      "reason": "Folder skills/motion-polish/ not found in repository tree"
+    },
+    "ui-patterns": {
+      "sourceRepo": "github.com/whawkinsiv/solo-founder-skills",
+      "folderPath": "skills/ui-patterns",
+      "commitSha": "01bd10f79a4b6a741be78e3184612a90ecbd54ef",
+      "license": null,
+      "reason": "Folder skills/ui-patterns/ not found in repository tree"
+    },
+    "ui-ux-pro-max": {
+      "sourceRepo": "github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "folderPath": ".claude/skills/ui-ux-pro-max",
+      "commitSha": "28327f2f214d31bbd7555ed0c012a5df6484ed96",
+      "license": null,
+      "reason": "Source repository could not be fully verified; skills are under .claude/skills/ with different names"
+    },
+    "deploy-to-vercel": {
+      "sourceRepo": "github.com/vercel-labs/agent-skills",
+      "folderPath": "skills/deploy-to-vercel",
+      "commitSha": "1378aa506439f26c809dbcfc61515cbd70f93d69",
+      "license": null,
+      "reason": "Root LICENSE file not found in repository; not vendored locally"
+    }
+  }
+}

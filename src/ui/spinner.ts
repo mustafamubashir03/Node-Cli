@@ -1,39 +1,38 @@
-import chalk from "chalk";
 import ora, { type Ora } from "ora";
 
-let active: Ora | null = null;
-let lastText = "";
-let suspended = false;
+let spinner: Ora | null = null;
+let lastMessage = "";
+let paused = false;
 
-export function startSpinner(text: string) {
-    stopSpinner()
-    lastText = text;
-    active = ora({ text, color: "cyan" }).start();
+export function startSpinner(message: string): void {
+    stopSpinner();
+    lastMessage = message;
+    spinner = ora({ text: message, color: "cyan" }).start();
 }
-export function updateSpinner(text: string) {
-    if (active) {
-        active.text = text
-        lastText = text;
+
+export function stopSpinner(): void {
+    spinner?.stop();
+    spinner = null;
+}
+
+export function suspendSpinner(): void {
+    if (!spinner || paused) {
+        return;
     }
-}
-
-export function stopSpinner() {
-    active?.stop();
-    active = null;
-}
-
-export function suspendSpinner() {
-    if (!active || suspended) return;
-    suspended = true;
+    paused = true;
     stopSpinner();
 }
 
-export function resumeSpinner() {
-    if (!suspended) return;
-    suspended = false;
-    if (lastText) startSpinner(lastText);
+export function resumeSpinner(): void {
+    if (!paused) {
+        return;
+    }
+    paused = false;
+    if (lastMessage) {
+        startSpinner(lastMessage);
+    }
 }
 
 export function isSpinnerActive(): boolean {
-    return active !== null;
+    return spinner !== null;
 }

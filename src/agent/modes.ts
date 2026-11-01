@@ -1,11 +1,26 @@
-import type { HookCallback, Options, PermissionMode } from "@anthropic-ai/claude-agent-sdk";
+import type { PermissionMode } from "@anthropic-ai/claude-agent-sdk";
 
-export type Climode = "agent" | "ask" | "plan";
+export type Mode = "agent" | "ask" | "plan" | "strict";
+
+export type ModeConfig = {
+    tools: readonly string[];
+    permissionMode: PermissionMode;
+    maxTurns: number;
+    instruction: string;
+    description: string;
+    /**
+     * Strict mode requires an approval for operations that the standard
+     * (agent) policy would auto-allow, such as routine in-project writes and
+     * low-risk shell commands. Security boundaries stay enforced either way.
+     */
+    strict?: boolean;
+};
 
 const READ_TOOLS = ["Read", "Grep", "Glob", "WebSearch", "WebFetch"] as const;
-const AGENT_TOOLS = [...READ_TOOLS, "Edit", "Write", "Bash"] as const;
+const WRITE_TOOLS = ["Edit", "Write", "Bash"] as const;
+const AGENT_TOOLS = [...READ_TOOLS, ...WRITE_TOOLS];
 
-const NEVER_TOOLS = [
+export const TOOLS_DISABLED_IN_EVERY_MODE = [
     "Agent",
     "Task",
     "SendMessage",
@@ -20,133 +35,72 @@ const NEVER_TOOLS = [
     "ExitPlanMode",
     "KillShell",
     "BashOutput",
-] as const;
+];
 
-const READ_ONLY_PROMPT =
+const READ_ONLY_INSTRUCTION =
     "Read only what is needed. Answer or propose a short plan. " +
     "Never spawn subagents, schedule tasks, or run shell commands.";
 
-const AGENT_PROMPT = "Be efficient. Make the smallest change that solves the task.";
+const AGENT_INSTRUCTION = "Be efficient. Make the smallest change that solves the task.";
 
-export const MODES = {
+export const MODES: Record<Mode, ModeConfig> = {
     agent: {
-        tools: [...AGENT_TOOLS],
-        permissionMode: "default",
+        tools: AGENT_TOOLS,
+        // Auto-accept routine file edits (Write/Edit) so the SDK does not ask
+        // for every in-project edit; the CLI permission policy still gates
+        // Bash and out-of-project targets.
+        permissionMode: "acceptEdits",
         maxTurns: 25,
-        prompt: AGENT_PROMPT,
+        instruction: AGENT_INSTRUCTION,
         description: "Read, edit, and run commands - full agent loop with tools",
     },
+    strict: {
+        tools: AGENT_TOOLS,
+        permissionMode: "default",
+        maxTurns: 25,
+        instruction: AGENT_INSTRUCTION,
+        description: "Read, edit, and run commands - every write and command needs approval",
+        strict: true,
+    },
     ask: {
-        tools: [...READ_TOOLS],
+        tools: READ_TOOLS,
         permissionMode: "dontAsk",
         maxTurns: 6,
-        prompt: READ_ONLY_PROMPT,
+        instruction: READ_ONLY_INSTRUCTION,
         description: "Read-only exploration, answer without changing the files",
     },
     plan: {
-        tools: [...READ_TOOLS],
+        tools: READ_TOOLS,
         permissionMode: "plan",
         maxTurns: 6,
-        prompt: READ_ONLY_PROMPT,
+        instruction: READ_ONLY_INSTRUCTION,
         description: "Explore and propose a plan. No file edits applied. Think first, then execute as agent",
     },
-} as const satisfies Record<Climode, {
-    tools: string[];
-    permissionMode: PermissionMode;
-    maxTurns: number;
-    prompt: string;
-    description: string;
-}>;
-
-export const CLI_MODES = Object.keys(MODES) as Climode[];
-
-export const MODE_DESCRIPTIONS: Record<Climode, string> = Object.fromEntries(
-    CLI_MODES.map((mode) => [mode, MODES[mode].description]),
-) as Record<Climode, string>;
-
-const MODEL = process.env.AGENT_MODEL ?? "poolside/laguna-s-2.1:free";
-const SMALL_MODEL = "poolside/laguna-xs-2.1:free";
-
-const BASE_OPTIONS = {
-    model: MODEL,
-    env: {
-        ...process.env,
-        ANTHROPIC_BASE_URL: "https://openrouter.ai/api",
-        ANTHROPIC_AUTH_TOKEN: process.env.OPENROUTER_API_KEY,
-        ANTHROPIC_API_KEY: "",
-        ANTHROPIC_DEFAULT_SONNET_MODEL: MODEL,
-        ANTHROPIC_DEFAULT_OPUS_MODEL: MODEL,
-        ANTHROPIC_DEFAULT_HAIKU_MODEL: SMALL_MODEL,
-    },
-    maxBudgetUsd: 1.0,
-    effort: "medium" as const,
-    settingSources: [] as Options["settingSources"],
-    skills: [],
 };
 
-export function buildModeOptions(mode: Climode): Options {
-    const config = MODES[mode];
-    return {
-        ...BASE_OPTIONS,
-        tools: config.tools,
-        disallowedTools: [...NEVER_TOOLS],
-        permissionMode: config.permissionMode satisfies PermissionMode,
-        maxTurns: config.maxTurns,
-        systemPrompt: {
-            type: "preset",
-            preset: "claude_code",
-            append: config.prompt,
-        },
-    };
+export const ALL_MODES = Object.keys(MODES) as Mode[];
+
+export function parseMode(value: string): Mode | null {
+    return ALL_MODES.includes(value as Mode) ? (value as Mode) : null;
 }
 
-export function CliModeToPermissionMode(mode: Climode): PermissionMode {
+export function toPermissionMode(mode: Mode): PermissionMode {
     return MODES[mode].permissionMode;
 }
 
-let currentMode: Climode = "agent";
-
-export function getCurrentMode(): Climode {
-    return currentMode;
-}
-
-export function setCurrentMode(mode: Climode): void {
-    currentMode = mode;
-}
-
-export function isToolAllowedInMode(mode: Climode, toolName: string): boolean {
-    return (MODES[mode].tools as readonly string[]).includes(toolName);
-}
-
-export function createModeGuardHook(): HookCallback {
-    return async (input) => {
-        if (input.hook_event_name !== "PreToolUse") {
-            return {};
-        }
-        const mode = getCurrentMode();
-        const toolName = input.tool_name;
-        if (isToolAllowedInMode(mode, toolName)) {
-            return {};
-        }
-        const allowed = MODES[mode].tools.join(", ");
-        return {
-            hookSpecificOutput: {
-                hookEventName: "PreToolUse",
-                permissionDecision: "deny" as const,
-                permissionDecisionReason:
-                    `'${toolName}' is not available in '${mode}' mode. ` +
-                    `Only these tools are allowed in '${mode}' mode: ${allowed}. ` +
-                    (mode === "agent"
-                        ? ""
-                        : `Switch to agent mode with /mode agent to make changes.`),
-            },
-        };
-    };
-}
-
-export function parseCliMode(value: string): Climode | null {
-    if (value === "agent" || value === "ask" || value === "plan") {
-        return value;
+export function isToolAllowed(mode: Mode, toolName: string): boolean {
+    if (toolName === "UseSkill" || toolName === "mcp__node-cli__UseSkill") {
+        return true;
     }
-    return null;
+    if (toolName.startsWith("mcp__node-cli-images__")) {
+        return true;
+    }
+    if (toolName.startsWith("mcp__node-cli-figma__")) {
+        return true;
+    }
+    return MODES[mode].tools.includes(toolName);
+}
+
+export function toolSurface(mode: Mode): string {
+    return MODES[mode].tools.join(", ");
 }
