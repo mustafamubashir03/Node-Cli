@@ -1,41 +1,76 @@
 ---
 name: figma-to-code
-description: Guide for converting Figma designs to code using Node CLI's Figma integration
 category: design
-triggers: [figma, design-to-code, figma-url, figma-design]
-contextTokens: 2000
+sourceRepo: adapted from figma/mcp-server-guide
+sourceUrl: https://github.com/figma/mcp-server-guide
+license: MIT
+tags: ["figma", "design-to-code", "asset-inventory", "auto-layout", "tokens"]
+triggers: ["figma", "implement design", "design to code", "figma to code", "figma frame", "figma url"]
+contextTokens: 1200
 ---
 
-# Figma-to-Code Skill
+# Figma to Code (node-cli adapted)
 
-## Overview
-This skill guides the agent through converting Figma designs into working code.
+## Sources
+- figma/mcp-server-guide: figma-design-to-code (commit f3f264d)
+- figma/mcp-server-guide: figma-code-workflows (commit f3f264d)
 
-## Workflow
-1. Parse the Figma URL to extract file key and node ID
-2. Retrieve design context using FigmaClient
-3. Generate a structured design specification
-4. Extract design tokens (colors, typography, spacing)
-5. Download original assets
-6. Implement the design in the user's project framework
-7. Run visual QA against the Figma reference
+## Instructions
 
-## Key Principles
-- Use original Figma assets, never generate substitutes
-- Extract exact values from the design, don't approximate
-- Reuse existing project components when possible
-- Implement responsive behavior based on design evidence
-- Run visual comparison after implementation
-- Report discrepancies honestly
+### 1. Fetch context BEFORE coding
+- Call FigmaGetDesignContext with the file key and node id.
+- Request a screenshot as part of the initial call. Use it as the visual target.
+- If no screenshot returned, call FigmaListFrames to get frame previews.
+- If response is sparse, fetch child nodes in parallel batches.
 
-## Tool Usage
-- `figma_get_design_context`: Retrieve design data from Figma
-- `figma_download_assets`: Download images and SVGs
-- `figma_get_variables`: Extract design tokens
-- `figma_get_screenshot`: Get reference screenshot
+### 2. Asset inventory
+- Run FigmaDownloadAssets to export all per-node assets.
+- Check .node-cli/figma/<key>/<node>/assets/ for downloaded files.
+- Every <img> must reference a path in assets.json. Never use reference/full.png or 1-2.png as content.
+- Labeled placeholders are acceptable only when status: placeholder in assets.json.
 
-## Mandatory Skills for Figma Tasks
-- emil-design-eng (design foundation)
-- baseline-ui (UI quality)
-- frontend-design (implementation)
-- figma-to-code (this skill)
+### 3. Auto Layout to CSS mapping
+| Figma | CSS |
+|-------|-----|
+| layoutMode: HORIZONTAL | display: flex; flex-direction: row |
+| layoutMode: VERTICAL | display: flex; flex-direction: column |
+| itemSpacing | gap: <value>px |
+| paddingTop/Right/Bottom/Left | padding: <t>px <r>px <b>px <l>px |
+| primaryAxisSizingMode: FIXED | width: <value>px |
+| counterAxisSizingMode: FIXED | height: <value>px |
+| primaryAxisSizingMode: AUTO | width: auto / fit-content |
+| layoutWrap: WRAP | flex-wrap: wrap |
+
+### 4. Variables to tokens
+- Extract Figma variables into .node-cli/figma/<key>/<node>/tokens.json
+- Each token lists its node ids
+- Generate styles/tokens.css from tokens.json
+- Never hardcode colors, spacing, or typography values
+
+### 5. Read the package first
+- Read .node-cli/figma/<key>/<node>/index.md for the full inventory
+- Read the current section's spec.md for exact measurements
+- Read assets.json for available assets
+- The Figma package is the only source of truth
+
+### 6. Section-by-section implementation
+- Implement one section at a time
+- Every element must have data-figma-node="<id>"
+- Section roots must have data-section="NN"
+- Use exact TEXT characters from the spec
+- Use only assets from assets.json
+- Never invent copy, colors, or imagery
+
+### 7. Verification
+- Render at 1440px and compare with reference.png
+- Check text coverage: all 168 TEXT strings must appear
+- Check no CDN or hotlinks in HTML
+- Check every <img> maps to assets.json
+- Run [VERIFY] before declaring done
+
+### 8. Quality gates
+- No reference/full.png or 1-2.png as content image
+- No Tailwind or CDN
+- No hardcoded values (use tokens)
+- HTML must parse without errors
+- No writes outside workspace
