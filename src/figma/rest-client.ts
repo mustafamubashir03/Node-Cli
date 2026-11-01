@@ -9,10 +9,14 @@ export interface FigmaClientOptions {
   useCache?: boolean;
 }
 
+let globalRequestCount = 0;
+
 export class FigmaRestClient {
   private accessToken: string;
   private cache: FigmaCache | null;
   private useCache: boolean;
+  private static concurrencyLimit = 3;
+  private static activeRequests = 0;
 
   constructor(options: FigmaClientOptions) {
     this.accessToken = options.accessToken;
@@ -37,6 +41,7 @@ export class FigmaRestClient {
       }
     }
 
+    globalRequestCount++;
     for (let attempt = 0; attempt <= retries; attempt++) {
       const response = await fetch(`${FIGMA_API_BASE}${endpoint}`, {
         headers: {
@@ -55,11 +60,22 @@ export class FigmaRestClient {
       }
 
       if (response.status === 429) {
+        const retryAfter = response.headers.get("Retry-After");
+        const rateLimitType = response.headers.get("X-Figma-Rate-Limit-Type") || "low";
+        const planTier = response.headers.get("X-Figma-Plan-Tier") || "unknown";
+        const delaySec = retryAfter ? parseInt(retryAfter, 10) : Math.min(30, Math.pow(2, attempt));
+        const jitter = Math.random() * 1000;
+
+        if (delaySec > 120) {
+          console.error(`Figma rate limit (type=${rateLimitType}, plan=${planTier}): wait ${delaySec}s. High limit requires Full/Dev seat.`);
+          console.error("Options: wait, use cached package, or exit.");
+          throw new Error(`Rate limited: retry after ${delaySec}s (type=${rateLimitType}, plan=${planTier})`);
+        }
+
         if (attempt < retries) {
-          const retryAfter = response.headers.get("Retry-After");
-          const delay = retryAfter ? parseInt(retryAfter, 10) * 1000 : Math.min(1000 * Math.pow(2, attempt), 30000);
-          const jitter = Math.random() * 1000;
-          await new Promise((resolve) => setTimeout(resolve, delay + jitter));
+          const delay = delaySec * 1000 + jitter;
+          console.log(`Figma rate limit (type=${rateLimitType}, plan=${planTier}): retrying in ${delaySec}s (attempt ${attempt + 1}/${retries}). Ctrl+C to cancel.`);
+          await new Promise((resolve) => setTimeout(resolve, delay));
           continue;
         }
         throw new Error("Rate limited by Figma API. Please wait and retry.");
@@ -193,4 +209,15 @@ function normalizeNode(node: any): FigmaNode {
     componentId: node.componentId,
     componentProperties: node.componentProperties,
   };
+}
+export function getFigmaRequestCount(): number {
+  return globalRequestCount;
+}
+
+export function printFigmaRequestCount(): void {
+  console.log(`Figma API calls this run: ${globalRequestCount}`);
+}
+
+export function resetFigmaRequestCount(): void {
+  globalRequestCount = 0;
 }

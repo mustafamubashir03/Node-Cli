@@ -9,10 +9,14 @@ export interface CacheEntry<T> {
   key: string;
   data: T;
   timestamp: number;
-  ttl: number; // milliseconds
+  ttl: number;
+  version?: string;
 }
 
 export class FigmaCache {
+  static cacheKeyFromEndpoint(endpoint: string): string {
+    return endpoint;
+  }
   private cacheDir: string;
 
   constructor(cacheDir?: string) {
@@ -32,7 +36,6 @@ export class FigmaCache {
     try {
       const entry = JSON.parse(readFileSync(path, "utf8")) as CacheEntry<T>;
       if (Date.now() - entry.timestamp > entry.ttl) {
-        // Expired
         unlinkSync(path);
         return null;
       }
@@ -42,52 +45,46 @@ export class FigmaCache {
     }
   }
 
-  set<T>(key: string, data: T, ttlMs: number = 3600000): void {
+  getWithVersion<T>(key: string, version: string): T | null {
     const path = this.getCachePath(key);
-    const entry: CacheEntry<T> = {
-      key,
-      data,
-      timestamp: Date.now(),
-      ttl: ttlMs,
-    };
+    if (!existsSync(path)) return null;
+
     try {
-      writeFileSync(path, JSON.stringify(entry), "utf8");
+      const entry = JSON.parse(readFileSync(path, "utf8")) as CacheEntry<T>;
+      if (entry.version !== version) return null;
+      if (Date.now() - entry.timestamp > entry.ttl) {
+        unlinkSync(path);
+        return null;
+      }
+      return entry.data;
     } catch {
-      // Ignore cache write failures
+      return null;
     }
+  }
+
+  set<T>(key: string, data: T, ttlMs: number = 3600000, version?: string): void {
+    const path = this.getCachePath(key);
+    const entry: CacheEntry<T> = { key, data, timestamp: Date.now(), ttl: ttlMs, version };
+    writeFileSync(path, JSON.stringify(entry));
   }
 
   invalidate(key: string): void {
     const path = this.getCachePath(key);
     if (existsSync(path)) {
-      try {
-        unlinkSync(path);
-      } catch {
-        // Ignore
-      }
+      try { unlinkSync(path); } catch { /* ignore */ }
     }
+  }
+
+  static cacheKey(fileKey: string, nodeId: string): string {
+    return `${fileKey}:${nodeId}`;
   }
 
   clear(): void {
-    try {
-      for (const file of readdirSync(this.cacheDir)) {
-        if (file.endsWith(".json")) {
-          unlinkSync(join(this.cacheDir, file));
-        }
+    if (!existsSync(this.cacheDir)) return;
+    for (const f of readdirSync(this.cacheDir)) {
+      if (f.endsWith(".json")) {
+        try { unlinkSync(join(this.cacheDir, f)); } catch { /* ignore */ }
       }
-    } catch {
-      // Ignore
     }
-  }
-
-  static cacheKey(fileKey: string, nodeId?: string, version?: string): string {
-    return `figma:${fileKey}:${nodeId || "root"}:${version || "latest"}`;
-  }
-
-  static cacheKeyFromEndpoint(endpoint: string): string {
-    // Normalize endpoint: remove leading slash, sort query params
-    const normalized = endpoint.startsWith("/") ? endpoint.slice(1) : endpoint;
-    // Include the full normalized endpoint as the key to ensure uniqueness
-    return `figma:endpoint:${normalized}`;
   }
 }
